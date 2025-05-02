@@ -28,6 +28,13 @@ const createAppRouter = () =>
         },
       ],
     },
+    {
+      path: "*",
+      lazy: async () => {
+        const module = await import("./routes/not-found");
+        return { Component: module.default };
+      },
+    },
   ]);
 
 export const AppRouter = () => {

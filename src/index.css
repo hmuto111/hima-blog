@@ -1,7 +1,13 @@
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+  padding: 0;
+  width: 100vw;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  background-color: #d9d9d9;
+}
+
+#root {
   min-height: 100vh;
 }
