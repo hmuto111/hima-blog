@@ -1,5 +1,6 @@
 import { Card } from "@/features/blog/components/card/card";
 import { Article } from "@/features/blog/types/article";
+import styles from "@/features/blog/styles/home.module.css";
 
 const Home = () => {
   const articledata: Article[] = [
@@ -52,7 +53,15 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
   ];
-  return <Card article={articledata[0]} />;
+  return (
+    <div className={styles.container_wrap}>
+      <div className={styles.card_container}>
+        {articledata.map((article) => (
+          <Card article={article} />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Home;
