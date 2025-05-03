@@ -52,10 +52,9 @@
   padding: 0 8px;
   display: inline-flex;
   align-items: center;
-  height: 20px;
+  height: auto;
   line-height: 20px;
-  justify-content: center;
-  text-align: center;
-  white-space: pre;
+  white-space: wrap;
+  word-break: break-all;
   cursor: pointer;
 }
