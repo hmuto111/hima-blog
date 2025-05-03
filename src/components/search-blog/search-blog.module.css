@@ -15,7 +15,7 @@
   padding: 6px 12px;
   width: 100%;
   max-width: 230px;
-  margin-bottom: 1%;
+  margin-bottom: 7%;
 }
 
 .search_icon {
@@ -52,10 +52,9 @@
   padding: 0 8px;
   display: inline-flex;
   align-items: center;
-  height: 20px;
+  height: auto;
   line-height: 20px;
-  justify-content: center;
-  text-align: center;
-  white-space: pre;
+  white-space: wrap;
+  word-break: break-all;
   cursor: pointer;
 }

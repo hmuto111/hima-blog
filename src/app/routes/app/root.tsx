@@ -1,14 +1,11 @@
 import { Outlet } from "react-router";
-import { Header } from "@/components/header/header";
-import { SearchBlog } from "@/components/search-blog/search-blog";
+import { BlogLayout } from "@/components/blog-layout/blog-layout";
 
 const AppRoot = () => {
   return (
-    <div>
-      <Header />
-      <SearchBlog />
+    <BlogLayout>
       <Outlet />
-    </div>
+    </BlogLayout>
   );
 };
 
