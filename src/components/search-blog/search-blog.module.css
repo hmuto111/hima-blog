@@ -1,7 +1,6 @@
 .search {
   min-width: 250px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 1%;
