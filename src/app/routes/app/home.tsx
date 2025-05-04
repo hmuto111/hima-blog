@@ -31,7 +31,7 @@ const Home = () => {
     {
       id: 4,
       title: "Reactむずすぎ",
-      img: "@/assets/react.svg",
+      img: "react.svg",
       tag: ["React", "RAG"],
       view: 100,
       post: new Date("2025-05-03T14:03:29.000Z"),
