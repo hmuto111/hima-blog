@@ -1,7 +1,6 @@
 .search {
-  min-width: 250px;
+  max-width: 250px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
   box-sizing: border-box;
   padding: 0 1%;
@@ -14,7 +13,8 @@
   border-radius: 20px;
   padding: 6px 12px;
   width: 100%;
-  max-width: 230px;
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 7%;
 }
 
@@ -39,9 +39,9 @@
 .tags {
   display: flex;
   flex-direction: row;
-  max-width: 230px;
+  width: 100%;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 5px;
 }
 
 .tag {
