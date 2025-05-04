@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import styles from "./card.module.css";
 import { Article } from "../../types/article";
 import HimajinLogo from "@/assets/himajin-logo.png";
@@ -14,7 +15,7 @@ export const Card = ({ article }: Props) => {
   const formattedPostDate = `${year}/${month}/${day}`;
 
   return (
-    <div className={styles.card}>
+    <Link to={`/blog/${article.id}`} className={styles.card}>
       <div className={styles.article_img}>
         {article.img !== "none" ? (
           <img src={article.img} alt={article.title} />
@@ -34,6 +35,6 @@ export const Card = ({ article }: Props) => {
         <div className={styles.info}>{`閲覧数  ${article.view}`}</div>
         <div className={styles.info}>{`投稿日  ${formattedPostDate}`}</div>
       </div>
-    </div>
+    </Link>
   );
 };
