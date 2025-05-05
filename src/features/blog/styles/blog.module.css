@@ -1,0 +1,22 @@
+.article_container {
+  display: grid;
+  grid-template-columns: 0.5fr 4.5fr;
+  gap: 20px;
+  width: 100%;
+}
+
+.article_index {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.index {
+  color: #474747;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.index:hover {
+  text-decoration: underline;
+}

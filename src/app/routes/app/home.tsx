@@ -1,11 +1,11 @@
 import { Card } from "@/features/blog/components/card/card";
-import { Article } from "@/features/blog/types/article";
+import { ArticleInfo } from "@/features/blog/types/article";
 import styles from "@/features/blog/styles/home.module.css";
 
 const Home = () => {
-  const articledata: Article[] = [
+  const articledata: ArticleInfo[] = [
     {
-      id: 1,
+      id: "1",
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG", "javascript", "java", "typescript", "react"],
@@ -13,7 +13,7 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: 2,
+      id: "2",
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG"],
@@ -21,7 +21,7 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: 3,
+      id: "3",
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG"],
@@ -29,7 +29,7 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: 4,
+      id: "4",
       title: "Reactむずすぎ",
       img: "react.svg",
       tag: ["React", "RAG"],
@@ -37,7 +37,7 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: 5,
+      id: "5",
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG"],
@@ -45,7 +45,7 @@ const Home = () => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: 6,
+      id: "6",
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG"],

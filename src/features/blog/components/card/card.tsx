@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import styles from "./card.module.css";
 import { Article } from "../../types/article";
 import HimajinLogo from "@/assets/himajin-logo.png";
+import { v4 as uuid } from "uuid";
 
 type Props = {
   article: Article;
@@ -15,7 +16,11 @@ export const Card = ({ article }: Props) => {
   const formattedPostDate = `${year}/${month}/${day}`;
 
   return (
-    <Link to={`/blog/${article.id}`} className={styles.card}>
+    <Link
+      to={`/blog/${article.id}`}
+      className={styles.card}
+      state={{ article: article, postDate: formattedPostDate }}
+    >
       <div className={styles.article_img}>
         {article.img !== "none" ? (
           <img src={article.img} alt={article.title} />
@@ -27,7 +32,9 @@ export const Card = ({ article }: Props) => {
         <div className={styles.article_title}>{article.title}</div>
         <div className={styles.tags}>
           {article.tag.map((t) => (
-            <div className={styles.tag}>{t}</div>
+            <div key={uuid()} className={styles.tag}>
+              {t}
+            </div>
           ))}
         </div>
       </div>

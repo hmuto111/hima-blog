@@ -1,5 +1,6 @@
 import styles from "./search-blog.module.css";
 import searchIcon from "@/assets/search-icon.svg";
+import { v4 as uuid } from "uuid";
 import { Tag } from "@/types/tag";
 
 export const SearchBlog = () => {
@@ -23,7 +24,9 @@ export const SearchBlog = () => {
       <div className={styles.tags}>
         {tags.map((tag) => {
           const [key, value] = Object.entries(tag)[0];
-          return <div className={styles.tag}>{`${key}   ${value}`}</div>;
+          return (
+            <div className={styles.tag} key={uuid()}>{`${key}   ${value}`}</div>
+          );
         })}
       </div>
     </div>
