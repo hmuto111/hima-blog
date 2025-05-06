@@ -33,6 +33,10 @@ greeting('World');
 ~~~
 > aaa
  
+>> aaa
+
+>>> aaa
+ 
 pythonはむずいaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
   
 | 左揃え | 中央揃え | 右揃え |
@@ -75,14 +79,10 @@ hoge
 </details>
 
 ![フクロウ](https://notepm.jp/build/assets/apple-touch-icon-120x120-2ee67c72.png)
+  
+今夜は寿司[^1]です。
 
-テキストA[^1]
-テキストB[^2]
-テキストC[^3]
-
- 
-
-[^1]: テキストAの注釈
+[^1]: 酢飯の上になんか色々乗せた食べ物
 
 ~~~uml
 Alice -> Bob: Authentication Request
