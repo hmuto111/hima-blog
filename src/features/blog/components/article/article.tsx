@@ -1,5 +1,4 @@
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MarkdownRender } from "../markdown/markdown-render";
 import styles from "./article.module.css";
 import { v4 as uuid } from "uuid";
 import { ArticleContent } from "../../types/article";
@@ -36,9 +35,7 @@ export const Article = ({ article }: Props) => {
         <div className={styles.article_description}>{article.description}</div>
       )}
       <div className={styles.article_content}>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {article.content}
-        </ReactMarkdown>
+        <MarkdownRender content={article.content} />
       </div>
     </div>
   );

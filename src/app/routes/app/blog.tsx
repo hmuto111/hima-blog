@@ -32,8 +32,65 @@ function greeting(name) {
 greeting('World'); 
 ~~~
 > aaa
-pythonはむずい
+ 
+pythonはむずいaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+  
+| 左揃え | 中央揃え | 右揃え |
+|:---|:---:|---:|
+|1 |2 |3 |
+|4 |5 |6 |
+  
+1. 番号付きリスト1
+    1. 番号付きリスト1-1
+    1. 番号付きリスト1-2
+1. 番号付きリスト2
+1. 番号付きリスト3
 
+- リスト1
+    - リスト1_1
+        - リスト1_1_1
+        - リスト1_1_2
+    - リスト1_2
+- リスト2
+- リスト3
+
+hoge
+***
+hoge
+___
+hoge
+---
+  
+これは \`インラインコード\`です。
+
+- [ ] これからやるタスク
+    - [ ] Tabキーでインデント（字下げ）
+- [x] 完了したタスク
+
+<details>
+<summary>タイトル</summary>
+
+内容を
+ここに記載する
+</details>
+
+![フクロウ](https://notepm.jp/build/assets/apple-touch-icon-120x120-2ee67c72.png)
+
+テキストA[^1]
+テキストB[^2]
+テキストC[^3]
+
+ 
+
+[^1]: テキストAの注釈
+
+~~~uml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+~~~
 `,
   };
 

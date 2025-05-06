@@ -1,0 +1,56 @@
+.blockquote {
+  padding: 0 1em;
+  color: #57606a;
+  border-left: 0.25em solid #d0d7de;
+  margin: 16px 0;
+}
+
+.blockquote p {
+  margin: 0;
+}
+
+.link {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.list,
+.orderedList {
+  padding-left: 2em;
+  margin: 16px 0;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 16px 0;
+  display: block;
+  width: 100%;
+  overflow: auto;
+}
+
+.tableHeader {
+  font-weight: 600;
+  padding: 6px 13px;
+  border: 1px solid #d0d7de;
+  background-color: #d9d9d9;
+}
+
+.tableCell {
+  padding: 6px 13px;
+  border: 1px solid #d0d7de;
+}
+
+p > code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: #d9d9d9;
+  border-radius: 6px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  color: #d73a49;
+}
