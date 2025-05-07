@@ -7,6 +7,8 @@
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
+  text-decoration: none;
+  color: inherit;
 }
 
 .article_img {
