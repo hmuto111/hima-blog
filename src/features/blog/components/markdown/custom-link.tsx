@@ -9,11 +9,7 @@ type CustomLinkProps = {
   [key: string]: any;
 };
 
-export const CustomLink: React.FC<CustomLinkProps> = ({
-  href,
-  children,
-  ...rest
-}) => {
+export const CustomLink = ({ href, children, ...rest }: CustomLinkProps) => {
   // hrefがない場合
   if (!href) {
     return <span {...rest}>{children}</span>;

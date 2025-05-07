@@ -1,6 +1,7 @@
 import { useLocation } from "react-router";
 import { ArticleInfo, ArticleContent } from "@/features/blog/types/article";
 import { Article } from "@/features/blog/components/article/article";
+import { TableOfContents } from "@/features/blog/components/table-of-contents/table-of-contents";
 import styles from "@/features/blog/styles/blog.module.css";
 
 const Blog = () => {
@@ -71,13 +72,6 @@ hoge
     - [ ] Tabキーでインデント（字下げ）
 - [x] 完了したタスク
 
-<details>
-<summary>タイトル</summary>
-
-内容を
-ここに記載する
-</details>
-
 ![フクロウ](https://notepm.jp/build/assets/apple-touch-icon-120x120-2ee67c72.png)
   
 今夜は寿司[^1]です。
@@ -98,8 +92,7 @@ Alice <-- Bob: another authentication Response
     return (
       <div className={styles.article_container}>
         <div className={styles.article_index}>
-          <div className={styles.index}>aaa</div>
-          <div className={styles.index}>aaa</div>
+          <TableOfContents contents={articleDetail.content} />
         </div>
         <Article article={articleDetail} />
       </div>
