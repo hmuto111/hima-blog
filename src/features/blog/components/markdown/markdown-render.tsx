@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { CustomLink } from "./custom-link";
 import Markdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -10,23 +10,6 @@ type Props = {
 };
 
 export const MarkdownRender = ({ content }: Props) => {
-  const handleLinkClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
-      const href = e.currentTarget.getAttribute("href");
-
-      if (href?.startsWith("#")) {
-        return;
-      }
-
-      if (href?.startsWith("http")) {
-        e.preventDefault();
-        window.open(href, "_blank", "noopener,noreferrer");
-        return;
-      }
-    },
-    []
-  );
-
   return (
     <Markdown
       remarkPlugins={[remarkGfm]}
@@ -57,17 +40,7 @@ export const MarkdownRender = ({ content }: Props) => {
             </blockquote>
           );
         },
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        a: ({ node, children, href, ...props }) => (
-          <a
-            className={styles.link}
-            href={href}
-            onClick={handleLinkClick}
-            {...props}
-          >
-            {children}
-          </a>
-        ),
+        a: (props) => <CustomLink {...props} />,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ul: ({ node, children, ...props }) => (
           <ul className={styles.list} {...props}>
