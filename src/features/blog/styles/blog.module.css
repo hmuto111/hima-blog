@@ -3,20 +3,21 @@
   grid-template-columns: 0.5fr 4.5fr;
   gap: 20px;
   width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
 }
 
 .article_index {
+  position: sticky;
+  top: 10%;
+  bottom: 20px;
+  max-height: calc(100vh - 100px);
+  height: auto;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   width: 100%;
-}
-
-.index {
-  color: #474747;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.index:hover {
-  text-decoration: underline;
+  min-width: 90px;
+  align-self: flex-start;
 }

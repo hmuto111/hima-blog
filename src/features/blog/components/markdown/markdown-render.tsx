@@ -15,6 +15,36 @@ export const MarkdownRender = ({ content }: Props) => {
       remarkPlugins={[remarkGfm]}
       components={{
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        h1: ({ node, id, children, ...props }) => (
+          <h1
+            className={styles.heading1}
+            id={node?.position?.start.line.toString()}
+            {...props}
+          >
+            {children}
+          </h1>
+        ),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        h2: ({ node, id, children, ...props }) => (
+          <h2
+            className={styles.heading2}
+            id={node?.position?.start.line.toString()}
+            {...props}
+          >
+            {children}
+          </h2>
+        ),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        h3: ({ node, id, children, ...props }) => (
+          <h3
+            className={styles.heading3}
+            id={node?.position?.start.line.toString()}
+            {...props}
+          >
+            {children}
+          </h3>
+        ),
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         code({ node, className, children, ref, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
 

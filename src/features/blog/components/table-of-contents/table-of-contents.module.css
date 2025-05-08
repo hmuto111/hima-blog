@@ -1,0 +1,18 @@
+.toc {
+  display: flex;
+  flex-direction: column;
+  color: #474747;
+  font-weight: 500;
+  font-size: 1rem;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.anchor {
+  text-decoration: none;
+  color: inherit;
+}
+
+.anchor:hover {
+  text-decoration: underline;
+}
