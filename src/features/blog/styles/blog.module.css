@@ -10,7 +10,7 @@
 
 .article_index {
   position: sticky;
-  top: 10%;
+  top: calc(82px + 2.5rem);
   bottom: 20px;
   max-height: calc(100vh - 100px);
   height: auto;
