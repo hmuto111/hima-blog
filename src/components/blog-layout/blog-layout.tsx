@@ -10,10 +10,16 @@ type Props = {
 export const BlogLayout = ({ children }: Props) => {
   return (
     <div className={styles.blog_layout}>
-      <Header />
+      <div className={styles.header_wrap}>
+        <Header />
+      </div>
       <div className={styles.content}>
         <div className={styles.main_content}>{children}</div>
-        <SearchBlog />
+        <div className={styles.search_wrap}>
+          <div className={styles.search_container}>
+            <SearchBlog />
+          </div>
+        </div>
       </div>
     </div>
   );
