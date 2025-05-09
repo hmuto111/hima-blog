@@ -31,9 +31,6 @@ export const Article = ({ article }: Props) => {
           </div>
         </div>
       </div>
-      {article.description !== "" && (
-        <div className={styles.article_description}>{article.description}</div>
-      )}
       <div className={styles.article_content}>
         <MarkdownRender content={article.content} />
       </div>

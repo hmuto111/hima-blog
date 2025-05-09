@@ -16,7 +16,6 @@ const Blog = () => {
     tag: article.tag,
     view: article.view,
     post: postDate,
-    description: "pythonでRAGを構築するとき...",
     content: `
 # はじめに
 pythonむずすぎ

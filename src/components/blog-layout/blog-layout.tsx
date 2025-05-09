@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Header } from "../header/header";
 import { SearchBlog } from "../search-blog/search-blog";
+import { ScrollTop } from "../scroll-top/scroll-top";
 import styles from "./blog-layout.module.css";
 
 type Props = {
@@ -10,10 +11,17 @@ type Props = {
 export const BlogLayout = ({ children }: Props) => {
   return (
     <div className={styles.blog_layout}>
-      <Header />
+      <div className={styles.header_wrap}>
+        <Header />
+      </div>
       <div className={styles.content}>
         <div className={styles.main_content}>{children}</div>
-        <SearchBlog />
+        <div className={styles.search_wrap}>
+          <div className={styles.search_container}>
+            <SearchBlog />
+          </div>
+          <ScrollTop />
+        </div>
       </div>
     </div>
   );
