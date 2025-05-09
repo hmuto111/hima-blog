@@ -42,7 +42,5 @@
 .search_container {
   position: sticky;
   top: calc(82px + 2.5rem);
-  height: 100%;
-  max-height: calc(100vh - 10px);
-  bottom: 20px;
+  height: auto;
 }
