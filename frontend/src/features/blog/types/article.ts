@@ -14,5 +14,6 @@ export type ArticleContent = {
   tag: string[];
   view: number;
   post: string;
+  updated: string;
   content: string;
 };
