@@ -19,7 +19,7 @@ importers:
         specifier: ^6.7.0
         version: 6.7.0(prisma@6.7.0(typescript@5.8.3))(typescript@5.8.3)
       '@types/node':
-        specifier: ^20.11.17
+        specifier: ^20.17.46
         version: 20.17.46
       prisma:
         specifier: ^6.7.0
