@@ -16,6 +16,7 @@ const Blog = () => {
     tag: article.tag,
     view: article.view,
     post: postDate,
+    updated: "2025/05/05",
     content: `
 # はじめに
 pythonむずすぎ
