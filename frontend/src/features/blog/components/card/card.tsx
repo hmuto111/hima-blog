@@ -1,15 +1,15 @@
 import { Link } from "react-router";
 import styles from "./card.module.css";
-import { Article } from "../../types/article";
+import { ArticleInfo } from "../../types/article";
 import HimajinLogo from "@/assets/himajin-logo.png";
 import { v4 as uuid } from "uuid";
 
 type Props = {
-  article: Article;
+  article: ArticleInfo;
 };
 
 export const Card = ({ article }: Props) => {
-  const postDate = article.post;
+  const postDate = new Date(article.post);
   const year = postDate.getFullYear();
   const month = String(postDate.getMonth() + 1).padStart(2, "0");
   const day = String(postDate.getDate()).padStart(2, "0");

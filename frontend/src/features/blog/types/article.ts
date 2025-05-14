@@ -4,7 +4,7 @@ export type ArticleInfo = {
   img: string;
   tag: string[];
   view: number;
-  post: Date;
+  post: string;
 };
 
 export type ArticleContent = {
