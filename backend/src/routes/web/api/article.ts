@@ -1,13 +1,14 @@
 import { Hono } from "hono";
 import { ArticleContent, ArticleList } from "../../../schema/web/article.js";
 import { z } from "zod";
+import { dateToString } from "../../../utils/date-to-string.js";
 
 const articleRouter = new Hono();
 
 articleRouter.get("/", async (c) => {
   const articleList = [
     {
-      id: "1",
+      id: 1,
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG", "javascript", "java", "typescript", "react"],
@@ -15,7 +16,7 @@ articleRouter.get("/", async (c) => {
       post: new Date("2025-05-03T14:03:29.000Z"),
     },
     {
-      id: "2",
+      id: 2,
       title: "Pythonむずすぎ",
       img: "none",
       tag: ["python", "RAG"],
@@ -37,15 +38,16 @@ articleRouter.get("/", async (c) => {
 });
 
 articleRouter.get("/:id", async (c) => {
-  const articleId = c.req.param("id");
+  const articleId = parseInt(c.req.param("id"));
+  const date = dateToString(new Date());
   const articleData = {
-    id: "13",
+    id: 13,
     title: "pythonむずい",
     img: "https://~",
     tag: ["python", "javascript"],
     view: 1000,
-    post: "2025/05/05",
-    updated: "2025/05/05",
+    post: date,
+    updated: date,
     content: `
 # はじめに
 pythonむずすぎ

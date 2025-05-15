@@ -22,7 +22,7 @@ export const Article = ({ article }: Props) => {
         </div>
         <div className={styles.article_info}>
           <div className={styles.article_date}>
-            <div>{`最終更新日 2025/05/05`}</div>
+            <div>{`最終更新日 ${article.updated}`}</div>
             <div>{`投稿日 ${article.post}`}</div>
           </div>
           <div className={styles.article_view}>

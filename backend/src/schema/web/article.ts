@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const ArticleInfo = z.object({
-  id: z.string(),
+  id: z.number(),
   title: z.string(),
   img: z.string(),
   tag: z.string().array(),
@@ -12,7 +12,7 @@ export const ArticleInfo = z.object({
 export const ArticleList = z.array(ArticleInfo);
 
 export const ArticleContent = z.object({
-  id: z.string(),
+  id: z.number(),
   title: z.string(),
   img: z.string(),
   tag: z.string().array(),
