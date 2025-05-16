@@ -14,7 +14,7 @@ export const getArticle = async (
 
       const formattedArticle: ArticleContentType[] = article.map((a) => ({
         ...a,
-        tag: tags.map((t) => t.name),
+        tag: a.tag.map((t) => tags.find((tag) => tag.id === t)?.name as string),
         post: dateToString(a.post),
         updated: dateToString(a.updated),
       }));
