@@ -7,4 +7,6 @@ import { z } from "zod";
 
 export type ArticleInfoType = z.infer<typeof ArticleInfo>;
 export type ArticleListType = z.infer<typeof ArticleList>;
-export type ArticleContentType = z.infer<typeof ArticleContent>;
+export type ArticleContentType = Omit<z.infer<typeof ArticleContent>, "tag"> & {
+  tag: string[];
+};

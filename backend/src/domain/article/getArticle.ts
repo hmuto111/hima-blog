@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma-client";
 import type { ArticleContentType } from "../../routes/web/types/article";
+import { dateToString } from "../../utils/date-to-string";
 
 export const getArticle = async (
   all?: boolean,
@@ -7,18 +8,22 @@ export const getArticle = async (
   tag?: string
 ): Promise<ArticleContentType[] | { message: string }> => {
   try {
+    const tags = await prisma.tag.findMany();
     if (all) {
-      const article: ArticleContentType[] = await prisma.article.findMany({
-        include: {
-          tag: true,
-        },
-      });
+      const article = await prisma.article.findMany();
 
-      return article;
+      const formattedArticle: ArticleContentType[] = article.map((a) => ({
+        ...a,
+        tag: tags.map((t) => t.name),
+        post: dateToString(a.post),
+        updated: dateToString(a.updated),
+      }));
+
+      return formattedArticle;
     }
 
     if (word) {
-      const article: ArticleContentType[] = await prisma.article.findMany({
+      const article = await prisma.article.findMany({
         where: {
           OR: [
             {
@@ -35,29 +40,36 @@ export const getArticle = async (
             },
           ],
         },
-        include: {
-          tag: true,
-        },
       });
 
-      return article;
+      const formattedArticle: ArticleContentType[] = article.map((a) => ({
+        ...a,
+        tag: tags.map((t) => t.name),
+        post: dateToString(a.post),
+        updated: dateToString(a.updated),
+      }));
+
+      return formattedArticle;
     }
 
     if (tag) {
-      const article: ArticleContentType[] = await prisma.article.findMany({
+      const targetTag = tags.find((t) => t.name === tag);
+      const article = await prisma.article.findMany({
         where: {
           tag: {
-            some: {
-              name: tag,
-            },
+            has: targetTag?.id,
           },
-        },
-        include: {
-          tag: true,
         },
       });
 
-      return article;
+      const formattedArticle: ArticleContentType[] = article.map((a) => ({
+        ...a,
+        tag: tags.map((t) => t.name),
+        post: dateToString(a.post),
+        updated: dateToString(a.updated),
+      }));
+
+      return formattedArticle;
     }
 
     return { message: "no article found" };

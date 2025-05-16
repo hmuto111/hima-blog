@@ -12,14 +12,13 @@ model article {
   id      Int      @id @default(autoincrement())
   title   String   @db.VarChar(255)
   img     String   @db.VarChar(512)
-  tag     Int[]    @default([])
+  tag     Int[]    // タグIDの配列として定義
   view    Int      @default(0)
   post    DateTime @db.Timestamptz(6) @default(now())
   updated DateTime @db.Timestamptz(6) @updatedAt
   content String
 
   @@index([post], map: "idx_article_post")
-  @@index([tag], map: "idx_article_tag", type: Gin)
 }
 
 model tag {
