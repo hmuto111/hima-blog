@@ -1,6 +1,6 @@
 import { prisma } from "../../lib/prisma-client";
 import type { ArticleContentType } from "../../routes/web/types/article";
-import { dateToString } from "../../utils/date-to-string";
+import { formatArticle } from "../../utils/formatArticle";
 
 export const getArticle = async (
   all?: boolean,
@@ -12,12 +12,10 @@ export const getArticle = async (
     if (all) {
       const article = await prisma.article.findMany();
 
-      const formattedArticle: ArticleContentType[] = article.map((a) => ({
-        ...a,
-        tag: a.tag.map((t) => tags.find((tag) => tag.id === t)?.name as string),
-        post: dateToString(a.post),
-        updated: dateToString(a.updated),
-      }));
+      const formattedArticle: ArticleContentType[] = formatArticle(
+        article,
+        tags
+      );
 
       return formattedArticle;
     }
@@ -42,12 +40,10 @@ export const getArticle = async (
         },
       });
 
-      const formattedArticle: ArticleContentType[] = article.map((a) => ({
-        ...a,
-        tag: a.tag.map((t) => tags.find((tag) => tag.id === t)?.name as string),
-        post: dateToString(a.post),
-        updated: dateToString(a.updated),
-      }));
+      const formattedArticle: ArticleContentType[] = formatArticle(
+        article,
+        tags
+      );
 
       return formattedArticle;
     }
@@ -62,12 +58,10 @@ export const getArticle = async (
         },
       });
 
-      const formattedArticle: ArticleContentType[] = article.map((a) => ({
-        ...a,
-        tag: a.tag.map((t) => tags.find((tag) => tag.id === t)?.name as string),
-        post: dateToString(a.post),
-        updated: dateToString(a.updated),
-      }));
+      const formattedArticle: ArticleContentType[] = formatArticle(
+        article,
+        tags
+      );
 
       return formattedArticle;
     }
