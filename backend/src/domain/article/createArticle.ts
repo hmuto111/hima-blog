@@ -27,26 +27,25 @@ const formatTags = async (tags: string[]) => {
 
 export const createArticle = async (
   articleContent: ArticleContentType
-): Promise<{ message: string } | ArticleContentType> => {
+): Promise<{ message: string }> => {
   try {
     const tagId = await formatTags(articleContent.tag);
     const article = await prisma.article.create({
       data: {
         title: articleContent.title,
         img: articleContent.img,
-        tag: {
-          connect: tagId.map((id: number) => id),
-        },
+        tag: tagId.map((id: number) => id),
         view: articleContent.view,
         post: new Date(articleContent.post),
         content: articleContent.content,
       },
-      include: {
-        tag: true,
-      },
     });
 
-    return article;
+    if (!article) {
+      return { message: "failed to create article" };
+    }
+
+    return { message: "successfully created article" };
   } catch (error) {
     console.error("Error creating article:", error);
     return { message: "failed to create article" };
