@@ -21,7 +21,7 @@ export const ArticleContent = z.object({
   id: z.number(),
   title: z.string(),
   img: z.string(),
-  tag: z.array(number()),
+  tag: z.number().or(z.string()).array(),
   view: z.number(),
   post: z.string(),
   updated: z.string(),

@@ -28,9 +28,13 @@ articleRouter.get("/", async (c) => {
   // ];
 
   try {
-    const articleContent = await getArticle(true);
+    const articleContent = await getArticle({ all: true });
     if ("message" in articleContent) {
       return c.json({ error: articleContent.message }, 500);
+    }
+
+    if (!Array.isArray(articleContent)) {
+      return c.json({ error: "Invalid article format" }, 500);
     }
 
     const articleList: ArticleListType = articleContent.map((article) => ({
@@ -55,27 +59,36 @@ articleRouter.get("/", async (c) => {
 
 articleRouter.get("/:id", async (c) => {
   const articleId = parseInt(c.req.param("id"));
-  const date = dateToString(new Date());
-  const articleData = {
-    id: 13,
-    title: "pythonむずい",
-    img: "https://~",
-    tag: ["python", "javascript"],
-    view: 1000,
-    post: date,
-    updated: date,
-    content: `
-# はじめに
-pythonむずすぎ
-# 〇〇とは
-〇〇とはpythonがむずすぎるということ
-# まとめ
-[@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)
-`,
-  };
+  //   const date = dateToString(new Date());
+  //   const articleData = {
+  //     id: 13,
+  //     title: "pythonむずい",
+  //     img: "https://~",
+  //     tag: ["python", "javascript"],
+  //     view: 1000,
+  //     post: date,
+  //     updated: date,
+  //     content: `
+  // # はじめに
+  // pythonむずすぎ
+  // # 〇〇とは
+  // 〇〇とはpythonがむずすぎるということ
+  // # まとめ
+  // [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)
+  // `,
+  //   };
 
   try {
-    const validArticle = ArticleContent.parse(articleData);
+    const articleContent = await getArticle({ id: articleId });
+    if ("message" in articleContent) {
+      return c.json({ error: articleContent.message }, 500);
+    }
+
+    if (Array.isArray(articleContent)) {
+      return c.json({ error: "Invalid article format" }, 500);
+    }
+
+    const validArticle = ArticleContent.parse(articleContent);
 
     return c.json(validArticle, 200);
   } catch (error) {

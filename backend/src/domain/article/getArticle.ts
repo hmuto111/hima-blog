@@ -1,18 +1,47 @@
 import { prisma } from "../../lib/prisma-client";
 import type { ArticleContentType } from "../../routes/web/types/article";
-import { formatArticle } from "../../utils/formatArticle";
+import { formatArticle, formatArticleContent } from "../../utils/formatArticle";
 
-export const getArticle = async (
-  all?: boolean,
-  word?: string,
-  tag?: string
-): Promise<ArticleContentType[] | { message: string }> => {
+type GetArticleParams = {
+  all?: boolean;
+  id?: number;
+  word?: string;
+  tag?: string;
+};
+
+export const getArticle = async ({
+  all,
+  id,
+  word,
+  tag,
+}: GetArticleParams): Promise<
+  ArticleContentType[] | ArticleContentType | { message: string }
+> => {
   try {
     const tags = await prisma.tag.findMany();
     if (all) {
       const article = await prisma.article.findMany();
 
       const formattedArticle: ArticleContentType[] = formatArticle(
+        article,
+        tags
+      );
+
+      return formattedArticle;
+    }
+
+    if (id) {
+      const article = await prisma.article.findFirst({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!article) {
+        return { message: `id:${id}に対応する記事が見つかりません` };
+      }
+
+      const formattedArticle: ArticleContentType = formatArticleContent(
         article,
         tags
       );

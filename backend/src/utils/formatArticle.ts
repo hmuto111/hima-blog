@@ -16,3 +16,15 @@ export const formatArticle = (
     updated: dateToString(a.updated),
   }));
 };
+
+export const formatArticleContent = (article: Article, tags: Tag[]) => {
+  const formattedArticleContent = {
+    ...article,
+    tag: article.tag.map(
+      (t) => tags.find((tag) => tag.id === t)?.name as string
+    ),
+    post: dateToString(article.post),
+    updated: dateToString(article.updated),
+  };
+  return formattedArticleContent;
+};
