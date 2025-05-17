@@ -1,6 +1,6 @@
 .article_container {
   display: grid;
-  grid-template-columns: 0.5fr 4.5fr;
+  grid-template-columns: 0.8fr 4.2fr;
   gap: 20px;
   width: 100%;
   min-height: 100vh;
