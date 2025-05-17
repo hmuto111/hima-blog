@@ -7,7 +7,7 @@ export const getArticleData = async (): Promise<ArticleInfo[]> => {
 };
 
 export const getArticleContent = async (
-  id: string
+  id: number
 ): Promise<ArticleContent> => {
   const response = await api.get(`/article/${id}`);
   return response.data;

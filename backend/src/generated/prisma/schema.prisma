@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model article {
+  id      Int      @id @default(autoincrement())
+  title   String   @db.VarChar(255)
+  img     String   @db.VarChar(512)
+  tag     Int[] // タグIDの配列として定義
+  view    Int      @default(0)
+  post    DateTime @default(now()) @db.Timestamptz(6)
+  updated DateTime @updatedAt @db.Timestamptz(6)
+  content String
+
+  @@index([post], map: "idx_article_post")
+}
+
+model tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
+  used Int    @default(0)
+}

@@ -1,0 +1,12 @@
+services:
+  postgres:
+    container_name: himablog-db
+    build: ./image/postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"

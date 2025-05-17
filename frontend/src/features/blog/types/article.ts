@@ -1,5 +1,5 @@
 export type ArticleInfo = {
-  id: string;
+  id: number;
   title: string;
   img: string;
   tag: string[];
@@ -8,7 +8,7 @@ export type ArticleInfo = {
 };
 
 export type ArticleContent = {
-  id: string;
+  id: number;
   title: string;
   img: string;
   tag: string[];
