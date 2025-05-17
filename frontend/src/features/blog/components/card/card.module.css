@@ -32,21 +32,29 @@
   flex-shrink: 0;
 }
 
+.detail_wrap {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 65%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
 .article_description {
   display: flex;
   flex-direction: column;
-  height: 50%;
+  height: 60%;
   width: 100%;
   box-sizing: border-box;
-  padding: 2% 5% 0 5%;
+  padding: 0 5% 0 5%;
   gap: 5%;
 }
 
 .article_title {
-  height: 50%;
+  height: 60%;
   font-weight: bold;
   font-size: 1.2rem;
-  overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   line-clamp: 2;
@@ -55,12 +63,13 @@
 }
 
 .tags {
-  height: 35%;
+  height: 40%;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   gap: 2px;
   overflow: hidden;
+  position: relative;
 }
 
 .tag {
@@ -69,15 +78,69 @@
   height: 20px;
   font-size: 13px;
   border-radius: 5px;
+  box-sizing: border-box;
   padding: 0 8px;
   display: inline-flex;
   align-items: center;
-  white-space: wrap;
-  word-break: break-all;
+  white-space: nowrap;
+}
+
+.tag_over {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  color: #616161;
+  padding: 0 5%;
+  justify-content: flex-end;
+  font-size: 0.8em;
+  box-sizing: border-box;
+}
+
+.tooltip_container {
+  position: relative;
+  cursor: pointer;
+  outline: none;
+}
+
+.tooltip {
+  display: none;
+  position: relative;
+  bottom: 100%;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 4px #9d9d9d;
+  z-index: 1000;
+  max-width: 130px;
+  pointer-events: none;
+}
+
+.tooltip_container:hover .tooltip,
+.tooltip_container:focus .tooltip {
+  display: block;
+}
+
+.tooltip_container:focus:not(:hover) .tooltip {
+  display: none;
+}
+
+.tooltip_tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  margin: 1%;
+  box-sizing: border-box;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 12px;
+  color: #616161;
+  width: fit-content;
 }
 
 .article_info {
-  height: 20%;
+  height: 30%;
   width: 100%;
   display: flex;
   flex-direction: column;
