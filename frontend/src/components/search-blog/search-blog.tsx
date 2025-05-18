@@ -2,14 +2,79 @@ import styles from "./search-blog.module.css";
 import searchIcon from "@/assets/search-icon.svg";
 import { v4 as uuid } from "uuid";
 import { Tag } from "@/types/tag";
+import { getArticleBySearch, getTags } from "@/features/blog/api/get-article";
+import { useNavigate } from "react-router";
+import React, { useEffect, useState } from "react";
 
 export const SearchBlog = () => {
-  const tags: Tag[] = [
-    { python: 100 },
-    { javascript: 200 },
-    { typescript: 300 },
-    { cat: 1000 },
-  ];
+  const navigate = useNavigate();
+  const [tags, setTags] = useState<Tag[]>([]);
+  // const tags: Tag[] = [
+  //   { Python: 100 },
+  //   { javascript: 200 },
+  //   { typescript: 300 },
+  //   { cat: 1000 },
+  // ];
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const responseTags = await getTags();
+        const tags = responseTags.map((t) => ({ [t.name]: t.used }));
+        setTags(tags);
+      } catch (error) {
+        console.error("Error fetching tags:", error);
+      }
+    };
+
+    fetchTags();
+  }, []);
+
+  const navigateToHome = async ({
+    words,
+    tagName,
+  }: {
+    words?: string;
+    tagName?: string;
+  }) => {
+    try {
+      const articles = await getArticleBySearch({ words: words, tag: tagName });
+      navigate("/", {
+        state: {
+          searchResult: {
+            articles: articles,
+            message:
+              articles.length > 0
+                ? `${articles.length}件の記事が見つかりました`
+                : "該当する記事が見つかりませんでした",
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching article data:", error);
+      navigate("/", {
+        state: {
+          searchResult: {
+            articles: [],
+            message: "記事検索中にエラーが発生しました",
+          },
+        },
+      });
+    }
+  };
+
+  const handleKeyDown = async (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+
+    const inputValue = e.currentTarget.value;
+    if (!inputValue) return;
+
+    await navigateToHome({ words: inputValue });
+  };
+
+  const handleTagClick = async (tagName: string) => {
+    await navigateToHome({ tagName });
+  };
 
   return (
     <div className={styles.search}>
@@ -19,13 +84,18 @@ export const SearchBlog = () => {
           type="text"
           className={styles.search_input}
           placeholder="記事を検索..."
+          onKeyDown={(e) => handleKeyDown(e)}
         />
       </div>
       <div className={styles.tags}>
         {tags.map((tag) => {
           const [key, value] = Object.entries(tag)[0];
           return (
-            <div className={styles.tag} key={uuid()}>{`${key}   ${value}`}</div>
+            <div
+              className={styles.tag}
+              key={uuid()}
+              onClick={() => handleTagClick(key)}
+            >{`${key}   ${value}`}</div>
           );
         })}
       </div>

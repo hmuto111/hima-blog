@@ -1,12 +1,24 @@
 import { prisma } from "../../lib/prisma-client";
-import type { ArticleContentType } from "../../routes/web/types/article";
+import type { ArticleContentType, Tag } from "../../routes/web/types/article";
 import { formatArticle, formatArticleContent } from "../../utils/formatArticle";
 
 type GetArticleParams = {
   all?: boolean;
   id?: number;
-  word?: string;
+  word?: string | string[];
   tag?: string;
+};
+
+export const getTags = async (): Promise<Tag[] | { message: string }> => {
+  try {
+    const tags = await prisma.tag.findMany();
+    return tags;
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    return { message: "failed to fetch tags" };
+  } finally {
+    await prisma.$disconnect();
+  }
 };
 
 export const getArticle = async ({
@@ -50,22 +62,28 @@ export const getArticle = async ({
     }
 
     if (word) {
+      const keywords = Array.isArray(word) ? word : [word];
+
+      const queries = keywords.map((keyword) => ({
+        OR: [
+          {
+            title: {
+              contains: keyword,
+              mode: "insensitive" as const,
+            },
+          },
+          {
+            content: {
+              contains: keyword,
+              mode: "insensitive" as const,
+            },
+          },
+        ],
+      }));
+
       const article = await prisma.article.findMany({
         where: {
-          OR: [
-            {
-              title: {
-                contains: word,
-                mode: "insensitive",
-              },
-            },
-            {
-              content: {
-                contains: word,
-                mode: "insensitive",
-              },
-            },
-          ],
+          AND: queries,
         },
       });
 
@@ -77,22 +95,26 @@ export const getArticle = async ({
       return formattedArticle;
     }
 
-    if (tag) {
+    if (tag && typeof tag === "string") {
       const targetTag = tags.find((t) => t.name === tag);
-      const article = await prisma.article.findMany({
-        where: {
-          tag: {
-            has: targetTag?.id,
+      if (targetTag) {
+        const article = await prisma.article.findMany({
+          where: {
+            tag: {
+              hasSome: [targetTag.id],
+            },
           },
-        },
-      });
+        });
 
-      const formattedArticle: ArticleContentType[] = formatArticle(
-        article,
-        tags
-      );
+        const formattedArticle: ArticleContentType[] = formatArticle(
+          article,
+          tags
+        );
 
-      return formattedArticle;
+        return formattedArticle;
+      } else {
+        return { message: `tag:${tag}に対応する記事が見つかりません` };
+      }
     }
 
     return { message: "no article found" };

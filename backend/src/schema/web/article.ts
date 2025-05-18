@@ -1,4 +1,4 @@
-import { number, z } from "zod";
+import { z } from "zod";
 
 export const ArticleInfo = z.object({
   id: z.number(),
@@ -12,10 +12,11 @@ export const ArticleInfo = z.object({
 export const ArticleList = z.array(ArticleInfo);
 
 export const Tag = z.object({
-  id: z.number(),
   name: z.string(),
   used: z.number(),
 });
+
+export const TagList = z.array(Tag);
 
 export const ArticleContent = z.object({
   id: z.number(),
