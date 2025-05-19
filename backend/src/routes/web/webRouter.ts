@@ -8,7 +8,7 @@ export const webRouter = new Hono()
     cors({
       // 開発用設定
       origin: (origin) => origin,
-      allowMethods: ["GET"],
+      allowMethods: ["GET", "POST", "PATCH", "DELETE"],
       credentials: true,
     })
   )

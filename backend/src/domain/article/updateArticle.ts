@@ -47,3 +47,21 @@ export const updateArticle = async (
     return { message: "failed to update article" };
   }
 };
+
+export const updateArticleView = async (id: number) => {
+  try {
+    const result = await prisma.article.update({
+      where: {
+        id: id,
+      },
+      data: {
+        view: { increment: 1 },
+      },
+    });
+
+    return { message: "successfully updated article view" };
+  } catch (error) {
+    console.error("error updating article view:", error);
+    return { message: "failed to update article view" };
+  }
+};

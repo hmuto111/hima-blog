@@ -5,9 +5,9 @@ import {
   TagList,
 } from "../../../schema/web/article";
 import { z } from "zod";
-import { dateToString } from "../../../utils/date-to-string";
 import type { ArticleContentType, ArticleListType } from "../types/article";
 import { getArticle, getTags } from "../../../domain/article/getArticle";
+import { updateArticleView } from "../../../domain/article/updateArticle";
 
 const articleRouter = new Hono();
 
@@ -175,6 +175,18 @@ articleRouter.post("/search", async (c) => {
       return c.json({ error: "記事一覧のバリデーションに失敗しました。" }, 400);
     }
     return c.json({ error: "記事一覧の取得に失敗しました。" }, 500);
+  }
+});
+
+articleRouter.patch("/view/:id", async (c) => {
+  const id = parseInt(c.req.param("id"));
+
+  try {
+    const result = await updateArticleView(id);
+    return c.json(result, 200);
+  } catch (error) {
+    console.error("error failed to update view");
+    return c.json({ error: "対象記事の閲覧数更新に失敗しました。" }, 500);
   }
 });
 
