@@ -49,7 +49,5 @@ export const createArticle = async (
   } catch (error) {
     console.error("Error creating article:", error);
     return { message: "failed to create article" };
-  } finally {
-    await prisma.$disconnect();
   }
 };

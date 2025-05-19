@@ -18,7 +18,5 @@ export const deleteArticle = async (
   } catch (error) {
     console.error("Error deleting article:", error);
     return { message: "failed to delete article" };
-  } finally {
-    await prisma.$disconnect();
   }
 };

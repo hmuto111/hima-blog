@@ -45,7 +45,5 @@ export const updateArticle = async (
   } catch (error) {
     console.error("Error updating article:", error);
     return { message: "failed to update article" };
-  } finally {
-    await prisma.$disconnect();
   }
 };

@@ -16,8 +16,6 @@ export const getTags = async (): Promise<Tag[] | { message: string }> => {
   } catch (error) {
     console.error("Error fetching tags:", error);
     return { message: "failed to fetch tags" };
-  } finally {
-    await prisma.$disconnect();
   }
 };
 
@@ -121,7 +119,5 @@ export const getArticle = async ({
   } catch (error) {
     console.error("Error fetching article:", error);
     return { message: "failed to fetch article" };
-  } finally {
-    await prisma.$disconnect();
   }
 };
