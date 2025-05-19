@@ -1,9 +1,8 @@
 import styles from "./search-blog.module.css";
 import searchIcon from "@/assets/search-icon.svg";
-import { v4 as uuid } from "uuid";
 import { Tag } from "@/types/tag";
 import { getArticleBySearch, getTags } from "@/features/blog/api/get-article";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 export const SearchBlog = () => {
@@ -93,7 +92,9 @@ export const SearchBlog = () => {
           return (
             <div
               className={styles.tag}
-              key={uuid()}
+              key={key}
+              role="button"
+              tabIndex={0}
               onClick={() => handleTagClick(key)}
             >{`${key}   ${value}`}</div>
           );
