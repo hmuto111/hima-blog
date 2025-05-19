@@ -58,3 +58,7 @@
   word-break: break-all;
   cursor: pointer;
 }
+
+.tag:hover {
+  background-color: #b0b0b0;
+}
