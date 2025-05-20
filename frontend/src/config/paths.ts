@@ -9,4 +9,22 @@ export const paths = {
       getHref: () => "/blog/${blogId}",
     },
   },
+  admin: {
+    root: {
+      path: "/admin",
+      getHref: () => "/admin",
+    },
+    login: {
+      path: "/admin/login",
+      getHref: () => "/admin/login",
+    },
+    home: {
+      path: "/admin/home",
+      getHref: () => "/admin/home",
+    },
+    edit: {
+      path: "/admin/edit/${blogid}",
+      getHref: () => "/admin/edit/${blogid}",
+    },
+  },
 } as const;

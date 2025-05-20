@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router-dom";
 
 import AppRoot from "./routes/app/root";
-
+import Spinner from "@/components/spinner/spinner";
 import { paths } from "@/config/paths";
 
 const createAppRouter = () =>
@@ -10,7 +10,7 @@ const createAppRouter = () =>
     {
       path: paths.app.home.path,
       element: <AppRoot />,
-      hydrateFallbackElement: <div>spinner</div>,
+      hydrateFallbackElement: <Spinner size="large" />,
       children: [
         {
           path: paths.app.home.path,
@@ -23,6 +23,34 @@ const createAppRouter = () =>
           path: paths.app.blog.path,
           lazy: async () => {
             const module = await import("./routes/app/blog");
+            return { Component: module.default };
+          },
+        },
+      ],
+    },
+    {
+      path: paths.admin.login.path,
+      lazy: async () => {
+        const module = await import("./routes/admin/login");
+        return { Component: module.default };
+      },
+    },
+    {
+      path: paths.admin.root.path,
+      element: <AppRoot />,
+      hydrateFallbackElement: <Spinner size="large" />,
+      children: [
+        {
+          path: paths.admin.home.path,
+          lazy: async () => {
+            const module = await import("./routes/admin/home");
+            return { Component: module.default };
+          },
+        },
+        {
+          path: paths.admin.edit.path,
+          lazy: async () => {
+            const module = await import("./routes/admin/edit");
             return { Component: module.default };
           },
         },
