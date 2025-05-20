@@ -8,7 +8,7 @@ import { countupArticleView } from "@/features/blog/api/countup-view";
 
 const Blog = () => {
   const [articleContent, setArticleContent] = useState<ArticleContent>();
-  const viewedArticleRef = useRef<string[]>([]);
+  const viewedArticleRef = useRef<Set<string>>(new Set());
   const location = window.location;
   const id = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
@@ -16,7 +16,8 @@ const Blog = () => {
 
   useEffect(() => {
     try {
-      if (viewedArticleRef.current.includes(location.pathname)) {
+      const VIEW_COUNTUP_DELAY_MS = 30000;
+      if (viewedArticleRef.current.has(location.pathname)) {
         console.log("Already viewed this article");
         return;
       }
@@ -29,8 +30,8 @@ const Blog = () => {
       const countupViewTimer = setTimeout(async () => {
         const result = await countupArticleView(parseInt(id));
         console.log(result);
-        viewedArticleRef.current.push(location.pathname);
-      }, 30000);
+        viewedArticleRef.current.add(location.pathname);
+      }, VIEW_COUNTUP_DELAY_MS);
 
       return () => clearTimeout(countupViewTimer);
     } catch (error) {
