@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router-dom";
 
 import AppRoot from "./routes/app/root";
+import AdminRoot from "./routes/admin/root";
 import Spinner from "@/components/spinner/spinner";
 import { paths } from "@/config/paths";
 
@@ -37,7 +38,7 @@ const createAppRouter = () =>
     },
     {
       path: paths.admin.root.path,
-      element: <AppRoot />,
+      element: <AdminRoot />,
       hydrateFallbackElement: <Spinner size="large" />,
       children: [
         {
