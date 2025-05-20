@@ -44,7 +44,7 @@ const Home = () => {
         {message && <p className={styles.search_message}>{message}</p>}
         <div className={styles.card_container}>
           {articleData.map((article) => (
-            <Card key={uuid()} article={article} />
+            <Card key={uuid()} path={"blog"} article={article} />
           ))}
         </div>
       </div>

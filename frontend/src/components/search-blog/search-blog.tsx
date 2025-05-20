@@ -4,8 +4,9 @@ import { Tag } from "@/types/tag";
 import { getArticleBySearch, getTags } from "@/features/blog/api/get-article";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { paths } from "@/config/paths";
 
-export const SearchBlog = () => {
+export const SearchBlog = ({ role }: { role?: string }) => {
   const navigate = useNavigate();
   const [tags, setTags] = useState<Tag[]>([]);
   // const tags: Tag[] = [
@@ -36,9 +37,10 @@ export const SearchBlog = () => {
     words?: string;
     tagName?: string;
   }) => {
+    const path = role === "admin" ? paths.admin.home.path : paths.app.home.path;
     try {
       const articles = await getArticleBySearch({ words: words, tag: tagName });
-      navigate("/", {
+      navigate(path, {
         state: {
           searchResult: {
             articles: articles,
@@ -51,7 +53,7 @@ export const SearchBlog = () => {
       });
     } catch (error) {
       console.error("Error fetching article data:", error);
-      navigate("/", {
+      navigate(path, {
         state: {
           searchResult: {
             articles: [],

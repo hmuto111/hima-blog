@@ -5,20 +5,21 @@ import { ScrollTop } from "../scroll-top/scroll-top";
 import styles from "./blog-layout.module.css";
 
 type Props = {
+  role?: string;
   children: ReactNode;
 };
 
-export const BlogLayout = ({ children }: Props) => {
+export const BlogLayout = ({ role, children }: Props) => {
   return (
     <div className={styles.blog_layout}>
       <div className={styles.header_wrap}>
-        <Header />
+        <Header role={role} />
       </div>
       <div className={styles.content}>
         <div className={styles.main_content}>{children}</div>
         <div className={styles.search_wrap}>
           <div className={styles.search_container}>
-            <SearchBlog />
+            <SearchBlog role={role} />
           </div>
           <ScrollTop />
         </div>
