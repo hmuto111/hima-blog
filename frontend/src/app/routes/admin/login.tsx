@@ -32,13 +32,13 @@ const AdminLogin = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.loginBox}>
+      <div className={styles.login_box}>
         <h1 className={styles.title}>管理者ログイン</h1>
 
-        {error && <div className={styles.errorMessage}>{error}</div>}
+        {error && <div className={styles.error_message}>{error}</div>}
 
         <form onSubmit={handleSubmit} className={styles.form}>
-          <div className={styles.formGroup}>
+          <div className={styles.form_group}>
             <label htmlFor="username">ユーザー名</label>
             <input
               type="text"
@@ -51,7 +51,7 @@ const AdminLogin = () => {
             />
           </div>
 
-          <div className={styles.formGroup}>
+          <div className={styles.form_group}>
             <label htmlFor="password">パスワード</label>
             <input
               type="password"
@@ -67,7 +67,7 @@ const AdminLogin = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className={styles.submitButton}
+            className={styles.submit_button}
           >
             {isLoading ? <Spinner size="small" /> : "ログイン"}
           </button>
