@@ -12,25 +12,6 @@ import { updateArticleView } from "../../../domain/article/updateArticle";
 const articleRouter = new Hono();
 
 articleRouter.get("/", async (c) => {
-  // const articleList = [
-  //   {
-  //     id: 1,
-  //     title: "Pythonむずすぎ",
-  //     img: "none",
-  //     tag: ["python", "RAG", "javascript", "java", "typescript", "react"],
-  //     view: 100,
-  //     post: new Date("2025-05-03T14:03:29.000Z"),
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Pythonむずすぎ",
-  //     img: "none",
-  //     tag: ["python", "RAG"],
-  //     view: 100,
-  //     post: new Date("2025-05-03T14:03:29.000Z"),
-  //   },
-  // ];
-
   try {
     const articleContent = await getArticle({ all: true });
     if ("message" in articleContent) {
@@ -88,24 +69,6 @@ articleRouter.get("/tag", async (c) => {
 
 articleRouter.get("/:id", async (c) => {
   const articleId = parseInt(c.req.param("id"));
-  //   const date = dateToString(new Date());
-  //   const articleData = {
-  //     id: 13,
-  //     title: "pythonむずい",
-  //     img: "https://~",
-  //     tag: ["python", "javascript"],
-  //     view: 1000,
-  //     post: date,
-  //     updated: date,
-  //     content: `
-  // # はじめに
-  // pythonむずすぎ
-  // # 〇〇とは
-  // 〇〇とはpythonがむずすぎるということ
-  // # まとめ
-  // [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react)
-  // `,
-  //   };
 
   try {
     const articleContent = await getArticle({ id: articleId });
