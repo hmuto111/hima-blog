@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Card } from "@/features/blog/components/card/card";
+import Spinner from "@/components/spinner/spinner";
 import { ArticleInfo } from "@/features/blog/types/article";
 import { v4 as uuid } from "uuid";
 import styles from "@/features/blog/styles/home.module.css";
@@ -10,6 +11,7 @@ const Home = () => {
   const location = useLocation();
   const [articleData, setArticleData] = useState<ArticleInfo[]>([]);
   const [message, setMessage] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     if (location.state?.searchResult) {
@@ -22,25 +24,32 @@ const Home = () => {
 
     const fetchArticleData = async () => {
       try {
+        setIsLoading(true);
         await getArticleData().then(setArticleData);
       } catch (error) {
         console.error("Error fetching article data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchArticleData();
   }, [location.state?.searchResult]);
 
-  return (
-    <div className={styles.container_wrap}>
-      {message && <p className={styles.search_message}>{message}</p>}
-      <div className={styles.card_container}>
-        {articleData.map((article) => (
-          <Card key={uuid()} article={article} />
-        ))}
+  if (isLoading) {
+    return <Spinner size={"large"} />;
+  } else {
+    return (
+      <div className={styles.container_wrap}>
+        {message && <p className={styles.search_message}>{message}</p>}
+        <div className={styles.card_container}>
+          {articleData.map((article) => (
+            <Card key={uuid()} article={article} />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Home;
