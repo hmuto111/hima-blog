@@ -22,6 +22,8 @@ const Edit = () => {
   const [activeTab, setActiveTab] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const id = window.location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
@@ -67,8 +69,79 @@ const Edit = () => {
     }
   }, [id, isEdit]);
 
+  const handleDelete = async () => {
+    if (!window.confirm("記事を削除してもよろしいですか？")) return;
+
+    setIsSubmitting(true);
+    try {
+      // await deleteArticle(parseInt(id));
+      // 疑似遅延
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/admin/home");
+      alert("記事が削除されました");
+    } catch (error) {
+      console.error("削除に失敗しました", error);
+      alert("記事の削除に失敗しました");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleUpdate = async () => {
+    if (!article.title || !article.content) {
+      alert("タイトルとコンテンツは必須です");
+      return;
+    }
+
+    if (!window.confirm("この内容で記事を更新してもよろしいですか？")) return;
+
+    setIsSubmitting(true);
+    try {
+      // await updateArticle(parseInt(id), article);
+      // 疑似遅延
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/admin/home");
+      alert("記事が更新されました");
+    } catch (error) {
+      console.error("更新に失敗しました", error);
+      alert("記事の更新に失敗しました");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handlePost = async () => {
+    if (!article.title || !article.content) {
+      alert("タイトルとコンテンツは必須です");
+      return;
+    }
+
+    if (!window.confirm("この内容で記事を投稿してもよろしいですか？")) return;
+
+    setIsSubmitting(true);
+    try {
+      // await createArticle(article);
+      // 疑似遅延
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      navigate("/admin/home");
+      alert("記事が投稿されました");
+    } catch (error) {
+      console.error("投稿に失敗しました", error);
+      alert("記事の投稿に失敗しました");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className={styles.editor}>
+      {isSubmitting && (
+        <div className={styles.loading_overlay}>
+          <div className={styles.spinner_container}>
+            <Spinner size="large" />
+          </div>
+        </div>
+      )}
       <div className={styles.features_wrap}>
         <div className={styles.features}>
           <div className={styles.switch_container}>
@@ -85,11 +158,17 @@ const Edit = () => {
           <div className={styles.crud_buttons}>
             {isEdit ? (
               <>
-                <button>delete</button>
-                <button>update</button>
+                <button onClick={handleDelete} disabled={isSubmitting}>
+                  delete
+                </button>
+                <button onClick={handleUpdate} disabled={isSubmitting}>
+                  update
+                </button>
               </>
             ) : (
-              <button>post</button>
+              <button onClick={handlePost} disabled={isSubmitting}>
+                post
+              </button>
             )}
           </div>
         </div>
