@@ -1,6 +1,10 @@
 import styles from "./spinner.module.css";
 
-const Spinner = ({ size = "medium" }) => {
+type Props = {
+  size: "small" | "medium" | "large";
+};
+
+const Spinner = ({ size = "medium" }: Props) => {
   const spinnerClass = `${styles.spinner} ${styles[size]}`;
 
   return (
