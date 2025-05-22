@@ -6,11 +6,12 @@ import HimajinLogo from "@/assets/himajin-logo.png";
 import { v4 as uuid } from "uuid";
 
 type Props = {
+  isEdit?: boolean;
   path: string;
   article: ArticleInfo;
 };
 
-export const Card = ({ path, article }: Props) => {
+export const Card = ({ isEdit, path, article }: Props) => {
   const [hiddenTags, setHiddenTags] = useState(0);
   const [hiddenTagsList, setHiddenTagsList] = useState<string[]>([]);
   const tagsContainerRef = useRef<HTMLDivElement>(null);
@@ -52,7 +53,7 @@ export const Card = ({ path, article }: Props) => {
     <Link
       to={`/${path}/${article.id}`}
       className={styles.card}
-      state={{ article: article, postDate: formattedPostDate }}
+      state={{ article: article, postDate: formattedPostDate, isEdit: isEdit }}
     >
       <div className={styles.article_img}>
         {article.img !== "none" ? (

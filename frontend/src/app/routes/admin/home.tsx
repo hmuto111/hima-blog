@@ -44,7 +44,12 @@ const AdminHome = () => {
         {message && <p className={styles.search_message}>{message}</p>}
         <div className={styles.card_container}>
           {articleData.map((article) => (
-            <Card key={uuid()} path={"admin/edit"} article={article} />
+            <Card
+              key={uuid()}
+              isEdit={true}
+              path={"admin/edit"}
+              article={article}
+            />
           ))}
         </div>
       </div>

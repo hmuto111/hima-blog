@@ -23,8 +23,8 @@ export const paths = {
       getHref: () => "/admin/home",
     },
     edit: {
-      path: "/admin/edit/${blogid}",
-      getHref: () => "/admin/edit/${blogid}",
+      path: "/admin/edit/:blogId",
+      getHref: () => "/admin/edit/${blogId}",
     },
   },
 } as const;
