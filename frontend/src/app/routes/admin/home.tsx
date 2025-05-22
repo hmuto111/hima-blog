@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 import styles from "@/features/blog/styles/home.module.css";
 import { getArticleData } from "@/features/blog/api/get-article";
 
-const Home = () => {
+const AdminHome = () => {
   const location = useLocation();
   const [articleData, setArticleData] = useState<ArticleInfo[]>([]);
   const [message, setMessage] = useState<string>("");
@@ -44,7 +44,12 @@ const Home = () => {
         {message && <p className={styles.search_message}>{message}</p>}
         <div className={styles.card_container}>
           {articleData.map((article) => (
-            <Card key={uuid()} path={"blog"} article={article} />
+            <Card
+              key={uuid()}
+              isEdit={true}
+              path={"admin/edit"}
+              article={article}
+            />
           ))}
         </div>
       </div>
@@ -52,4 +57,4 @@ const Home = () => {
   }
 };
 
-export default Home;
+export default AdminHome;

@@ -2,12 +2,14 @@ import { useState, useEffect, useRef } from "react";
 import { ArticleContent } from "@/features/blog/types/article";
 import { Article } from "@/features/blog/components/article/article";
 import { TableOfContents } from "@/features/blog/components/table-of-contents/table-of-contents";
+import Spinner from "@/components/spinner/spinner";
 import styles from "@/features/blog/styles/blog.module.css";
 import { getArticleContent } from "@/features/blog/api/get-article";
 import { countupArticleView } from "@/features/blog/api/countup-view";
 
 const Blog = () => {
   const [articleContent, setArticleContent] = useState<ArticleContent>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const viewedArticleRef = useRef<Set<string>>(new Set());
   const location = window.location;
   const id = location.pathname.substring(
@@ -42,6 +44,7 @@ const Blog = () => {
   useEffect(() => {
     const fetchArticleContent = async () => {
       try {
+        setIsLoading(true);
         if (!id) {
           console.error("Article ID is not defined");
           return;
@@ -50,13 +53,17 @@ const Blog = () => {
         await getArticleContent(parseInt(id)).then(setArticleContent);
       } catch (error) {
         console.error("Error fetching article data:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchArticleContent();
   }, [id]);
 
-  if (id && articleContent) {
+  if (isLoading) {
+    return <Spinner size="large" />;
+  } else if (id && articleContent) {
     return (
       <div className={styles.article_container}>
         <div className={styles.article_index}>
