@@ -3271,7 +3271,7 @@ export namespace Prisma {
 
   export type articleCreateInput = {
     title: string
-    img: string
+    img?: string
     tag?: articleCreatetagInput | number[]
     view?: number
     post?: Date | string
@@ -3282,7 +3282,7 @@ export namespace Prisma {
   export type articleUncheckedCreateInput = {
     id?: number
     title: string
-    img: string
+    img?: string
     tag?: articleCreatetagInput | number[]
     view?: number
     post?: Date | string
@@ -3314,7 +3314,7 @@ export namespace Prisma {
   export type articleCreateManyInput = {
     id?: number
     title: string
-    img: string
+    img?: string
     tag?: articleCreatetagInput | number[]
     view?: number
     post?: Date | string

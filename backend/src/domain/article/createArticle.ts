@@ -1,4 +1,5 @@
 import { prisma } from "../../lib/prisma-client";
+import type { EditArticleType } from "../../routes/admin/types/article";
 import type { ArticleContentType } from "../../routes/web/types/article";
 
 const formatTags = async (tags: string[]) => {
@@ -26,22 +27,41 @@ const formatTags = async (tags: string[]) => {
 };
 
 export const createArticle = async (
-  articleContent: ArticleContentType
+  article: EditArticleType
 ): Promise<{ message: string }> => {
   try {
-    const tagId = await formatTags(articleContent.tag);
-    const article = await prisma.article.create({
-      data: {
-        title: articleContent.title,
-        img: articleContent.img,
-        tag: tagId.map((id: number) => id),
-        view: articleContent.view,
-        post: new Date(articleContent.post),
-        content: articleContent.content,
-      },
-    });
+    const tagId = await formatTags(article.tag);
+    let newArticle: {
+      tag: number[];
+      id: number;
+      title: string;
+      img: string;
+      view: number;
+      post: Date;
+      updated: Date;
+      content: string;
+    };
 
-    if (!article) {
+    if (article?.img) {
+      newArticle = await prisma.article.create({
+        data: {
+          title: article.title,
+          img: article.img,
+          tag: tagId.map((id: number) => id),
+          content: article.content,
+        },
+      });
+    } else {
+      newArticle = await prisma.article.create({
+        data: {
+          title: article.title,
+          tag: tagId.map((id: number) => id),
+          content: article.content,
+        },
+      });
+    }
+
+    if (!newArticle) {
       return { message: "failed to create article" };
     }
 
