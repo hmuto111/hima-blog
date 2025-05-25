@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useBeforeUnload } from "react-router-dom";
 
 import { getArticleContent } from "@/features/blog/api/get-article";
 
@@ -39,6 +39,14 @@ const Edit = () => {
   const handleTab = (tabId: number) => {
     setActiveTab(tabId);
   };
+
+  const message = "編集中の内容は保存されません。ページを離れますか？";
+
+  useBeforeUnload((e) => {
+    if (window.confirm(message) === false) {
+      e.preventDefault();
+    }
+  });
 
   const isEdit = location.state?.isEdit || false;
 
