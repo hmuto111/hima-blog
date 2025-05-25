@@ -52,6 +52,17 @@
   margin: 16px 0;
 }
 
+.image {
+  max-width: 100%;
+  min-width: 200px;
+  max-height: 200px;
+  height: auto;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin: 16px auto;
+  display: block;
+}
+
 .table {
   border-collapse: collapse;
   width: 100%;
