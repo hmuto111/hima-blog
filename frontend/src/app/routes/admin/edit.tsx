@@ -20,6 +20,7 @@ const Edit = () => {
     tag: [],
     content: "",
   });
+  const [files, setFiles] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -101,6 +102,30 @@ const Edit = () => {
     }
   }, [id, isEdit]);
 
+  const cleanupUnusedImages = async ({
+    isDelete = false,
+  }: {
+    isDelete: boolean;
+  }) => {
+    if (files.length === 0) return;
+
+    if (!article.content) {
+      if (isDelete) {
+        // ここで全ての画像を削除する処理を追加
+      } else {
+        const unusedFiles = files.map((file) => {
+          if (!article.content.includes(file)) {
+            return file;
+          }
+        });
+
+        if (unusedFiles.length > 0) {
+          // ここで未使用の画像を削除する処理を追加
+        }
+      }
+    }
+  };
+
   const handleDelete = async () => {
     if (!window.confirm("記事を削除してもよろしいですか？")) return;
 
@@ -109,6 +134,7 @@ const Edit = () => {
       // await deleteArticle(parseInt(id));
       // 疑似遅延
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      await cleanupUnusedImages({ isDelete: true });
       navigate("/admin/home");
       alert("記事が削除されました");
     } catch (error) {
@@ -132,6 +158,7 @@ const Edit = () => {
       // await updateArticle(parseInt(id), article);
       // 疑似遅延
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      await cleanupUnusedImages({ isDelete: false });
       navigate("/admin/home");
       alert("記事が更新されました");
     } catch (error) {
@@ -155,6 +182,7 @@ const Edit = () => {
       // await createArticle(article);
       // 疑似遅延
       await new Promise((resolve) => setTimeout(resolve, 1000));
+      await cleanupUnusedImages({ isDelete: false });
       navigate("/admin/home");
       alert("記事が投稿されました");
     } catch (error) {
@@ -162,6 +190,30 @@ const Edit = () => {
       alert("記事の投稿に失敗しました");
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleAddFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      // ここでファイルをアップロードする処理を追加
+      // api処理でfileNameにhttpから始まるURLを設定する
+      const fileName = file.name;
+      setFiles((prevFiles) => [...prevFiles, fileName]);
+
+      const imgMarkdown = `![${fileName}](${fileName})\n`;
+      setArticle((prevArticle) => ({
+        ...prevArticle,
+        content: prevArticle.content + imgMarkdown,
+      }));
+    } catch (error) {
+      console.error("ファイルのアップロードに失敗しました", error);
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -193,7 +245,13 @@ const Edit = () => {
               tabIndex={0}
               onClick={() => fileInputRef.current?.click()}
             >
-              <input type="file" accept="image/*" hidden ref={fileInputRef} />
+              <input
+                type="file"
+                accept="image/*"
+                hidden
+                ref={fileInputRef}
+                onChange={handleAddFile}
+              />
               <LuImagePlus size={"2rem"} color={"#888888"} />
             </div>
           </div>
