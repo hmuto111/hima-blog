@@ -16,6 +16,19 @@ export const EditArticle = ({ article, setArticle }: Props) => {
         value={article.title}
         onChange={(e) => setArticle({ ...article, title: e.target.value })}
       />
+      <div>
+        <p># カード画像をアップロード</p>
+        <input
+          type="file"
+          accept="image/jpeg, image/png"
+          onChange={(e) =>
+            setArticle({
+              ...article,
+              img: e.target.files ? e.target.files[0].name : "",
+            })
+          }
+        />
+      </div>
       <input
         type="text"
         className={styles.tag}

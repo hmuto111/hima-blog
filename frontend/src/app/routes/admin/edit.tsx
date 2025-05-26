@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useBeforeUnload } from "react-router-dom";
 
 import { getArticleContent } from "@/features/blog/api/get-article";
@@ -6,6 +6,7 @@ import { getArticleContent } from "@/features/blog/api/get-article";
 import { MarkdownRender } from "@/features/blog/components/markdown/markdown-render";
 import { EditArticle } from "@/features/admin/components/edit-article/edit-article";
 import Spinner from "@/components/spinner/spinner";
+import { LuImagePlus } from "react-icons/lu";
 
 import { EditArticleType } from "@/features/admin/types/edit-article";
 
@@ -23,6 +24,7 @@ const Edit = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const id = window.location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
@@ -45,7 +47,29 @@ const Edit = () => {
   useBeforeUnload((e) => {
     if (window.confirm(message) === false) {
       e.preventDefault();
+    } else {
+      //ここにアップロードして投稿や更新の確定していない画像を削除する処理を書く
     }
+  });
+
+  useEffect(() => {
+    const handleLinkClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+
+      if (target.tagName === "A" || target.closest("a")) {
+        if (!window.confirm(message)) {
+          e.preventDefault();
+        } else {
+          //ここにアップロードして投稿や更新の確定していない画像を削除する処理を書く
+        }
+      }
+    };
+
+    document.addEventListener("click", handleLinkClick);
+
+    return () => {
+      document.removeEventListener("click", handleLinkClick);
+    };
   });
 
   const isEdit = location.state?.isEdit || false;
@@ -163,32 +187,45 @@ const Edit = () => {
               </button>
             ))}
           </div>
+          <div className={styles.add_image_wrap}>
+            <div
+              className={styles.add_image}
+              tabIndex={0}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              <input type="file" accept="image/*" hidden ref={fileInputRef} />
+              <LuImagePlus size={"2rem"} color={"#888888"} />
+            </div>
+          </div>
           <div className={styles.crud_buttons}>
             {isEdit ? (
               <>
                 <button onClick={handleDelete} disabled={isSubmitting}>
-                  delete
+                  Delete
                 </button>
                 <button onClick={handleUpdate} disabled={isSubmitting}>
-                  update
+                  Update
                 </button>
               </>
             ) : (
               <button onClick={handlePost} disabled={isSubmitting}>
-                post
+                Post
               </button>
             )}
           </div>
         </div>
       </div>
-      <div className={styles.editor_main}>
-        {isLoading && <Spinner size={"large"} />}
-        {tabs[activeTab].label === "Preview" ? (
-          <MarkdownRender content={article.content} />
-        ) : (
-          <EditArticle article={article} setArticle={setArticle} />
-        )}
-      </div>
+      {isLoading ? (
+        <Spinner size={"large"} />
+      ) : (
+        <div className={styles.editor_main}>
+          {tabs[activeTab].label === "Preview" ? (
+            <MarkdownRender content={article.content} />
+          ) : (
+            <EditArticle article={article} setArticle={setArticle} />
+          )}
+        </div>
+      )}
     </div>
   );
 };
