@@ -6,8 +6,13 @@ import article from "./api/article";
 export const adminRouter = new Hono()
   .use(
     "*",
-    cors({ origin: process.env.ADMIN_URL as string, allowMethods: ["POST"] })
+    cors({
+      // 開発用設定
+      origin: (origin) => origin,
+      allowMethods: ["GET", "POST", "PATCH", "DELETE"],
+      credentials: true,
+    })
   )
-  .basePath("/v1/admin")
+  .basePath("/v1")
   .route("/article", article);
 //.route("/auth", auth)

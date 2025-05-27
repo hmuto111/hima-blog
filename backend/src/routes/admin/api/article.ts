@@ -28,9 +28,10 @@ adminArticleRouter.post("/image/upload", async (c) => {
     };
 
     const imgPath = await saveImgFile(imgData);
-    const imgUrl = process.env.IS_DEVELOPMENT
-      ? path.join(process.env.DEVELOP_URL as string, imgPath)
-      : path.join(process.env.PRODUCTION_URL as string, imgPath);
+    const imgUrl =
+      (process.env.IS_DEVELOPMENT as string) === "true"
+        ? (process.env.DEVELOP_URL as string) + imgPath
+        : (process.env.PRODUCTION_URL as string) + imgPath;
 
     return c.json({ url: imgUrl, file_name: imgPath }, 200);
   } catch (error) {

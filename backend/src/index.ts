@@ -4,6 +4,9 @@ import { webRouter } from "./routes/web/webRouter.js";
 import { adminRouter } from "./routes/admin/adminRouter.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { prisma } from "./lib/prisma-client.js";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 const app = new Hono()
   .route("/api", webRouter)

@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, useBeforeUnload } from "react-router-dom";
 
 import { getArticleContent } from "@/features/blog/api/get-article";
+import { addFile } from "@/features/admin/api/add-file";
+import { deleteFile } from "@/features/admin/api/delete-file";
 
 import { MarkdownRender } from "@/features/blog/components/markdown/markdown-render";
 import { EditArticle } from "@/features/admin/components/edit-article/edit-article";
@@ -11,6 +13,8 @@ import { LuImagePlus } from "react-icons/lu";
 import { EditArticleType } from "@/features/admin/types/edit-article";
 
 import styles from "@/features/admin/styles/edit.module.css";
+import { ImageFile } from "@/features/admin/types/image";
+import { extractImageFileNames } from "@/features/admin/utils/extract-filename";
 
 const Edit = () => {
   const location = useLocation();
@@ -20,7 +24,7 @@ const Edit = () => {
     tag: [],
     content: "",
   });
-  const [files, setFiles] = useState<string[]>([]);
+  const [files, setFiles] = useState<ImageFile[]>([]);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -49,7 +53,7 @@ const Edit = () => {
     if (window.confirm(message) === false) {
       e.preventDefault();
     } else {
-      //ここにアップロードして投稿や更新の確定していない画像を削除する処理を書く
+      cleanupUnusedImages({ isDelete: true });
     }
   });
 
@@ -61,7 +65,7 @@ const Edit = () => {
         if (!window.confirm(message)) {
           e.preventDefault();
         } else {
-          //ここにアップロードして投稿や更新の確定していない画像を削除する処理を書く
+          cleanupUnusedImages({ isDelete: true });
         }
       }
     };
@@ -91,6 +95,8 @@ const Edit = () => {
             tag: articleContent.tag,
             content: articleContent.content,
           });
+          const extractedFiles = extractImageFileNames(articleContent.content);
+          setFiles((prevfiles) => [...prevfiles, ...extractedFiles]);
         } catch (error) {
           console.error("Error fetching article data:", error);
         } finally {
@@ -107,22 +113,44 @@ const Edit = () => {
   }: {
     isDelete: boolean;
   }) => {
-    if (files.length === 0) return;
+    try {
+      if (files.length === 0) {
+        console.log("画像がありません");
+        return;
+      }
 
-    if (!article.content) {
-      if (isDelete) {
-        // ここで全ての画像を削除する処理を追加
-      } else {
-        const unusedFiles = files.map((file) => {
-          if (!article.content.includes(file)) {
-            return file;
+      if (!article.content) {
+        if (isDelete) {
+          const res = await deleteFile(files);
+          if (res.message) {
+            console.log("対象記事の全ての画像を削除しました");
+          } else {
+            console.error("画像の削除に失敗しました");
           }
-        });
+        } else {
+          const unusedFiles: ImageFile[] = files.filter((file) => {
+            if (!article.content.includes(file.file_name)) {
+              return file;
+            }
+          });
 
-        if (unusedFiles.length > 0) {
-          // ここで未使用の画像を削除する処理を追加
+          if (!unusedFiles) {
+            console.log("未使用の画像がありませんでした");
+            return;
+          }
+
+          if (unusedFiles.length > 0) {
+            const res = await deleteFile(unusedFiles);
+            if (res.message) {
+              console.log("未使用の画像を削除しました");
+            } else {
+              console.error("未使用の画像の削除に失敗しました");
+            }
+          }
         }
       }
+    } catch (error) {
+      console.error("画像のクリーンアップに失敗しました", error);
     }
   };
 
@@ -193,17 +221,15 @@ const Edit = () => {
     }
   };
 
-  const handleAddFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     try {
-      // ここでファイルをアップロードする処理を追加
-      // api処理でfileNameにhttpから始まるURLを設定する
-      const fileName = file.name;
-      setFiles((prevFiles) => [...prevFiles, fileName]);
+      const fileInfo = await addFile(file);
+      setFiles((prevFiles) => [...prevFiles, fileInfo]);
 
-      const imgMarkdown = `![${fileName}](${fileName})\n`;
+      const imgMarkdown = `![${fileInfo.url}](${fileInfo.url})\n`;
       setArticle((prevArticle) => ({
         ...prevArticle,
         content: prevArticle.content + imgMarkdown,

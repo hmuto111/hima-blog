@@ -11,15 +11,16 @@ type ImgData = {
 
 export async function saveImgFile(file: ImgData): Promise<string> {
   try {
-    const uploadDir = path.join(process.cwd(), "public", "images");
+    const uploadDir = path.join("public", "images");
 
-    const uniqueFileName = `${file.name}-${uuid()}`;
-    const filePath = path.join(uploadDir, uniqueFileName);
+    const uniqueFileName = `${uuid()}${path.extname(file.name).toLowerCase()}`;
+    const filePath = path.join(uploadDir, uniqueFileName).replace(/\s+/g, "_");
     await writeFile(filePath, file.data);
 
     console.log(`画像を保存しました： ${filePath}`);
 
-    return filePath;
+    const relativePath = filePath.replace(/^.*?public/, "");
+    return relativePath;
   } catch (error) {
     console.error("画像の保存に失敗しました:", error);
     throw new Error("画像の保存に失敗しました");
