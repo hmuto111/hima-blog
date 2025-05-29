@@ -33,7 +33,8 @@ adminArticleRouter.post("/image/upload", async (c) => {
         ? (process.env.DEVELOP_URL as string) + imgPath
         : (process.env.PRODUCTION_URL as string) + imgPath;
 
-    return c.json({ url: imgUrl, file_name: imgPath }, 200);
+    const fileName = imgPath.replace(/^.*\/images\//, "");
+    return c.json({ url: imgUrl, file_name: fileName }, 200);
   } catch (error) {
     console.error("画像のアップロードに失敗しました:", error);
     return c.json({ error: "画像のアップロードに失敗しました" }, 500);
@@ -42,16 +43,17 @@ adminArticleRouter.post("/image/upload", async (c) => {
 
 adminArticleRouter.post("/image/delete", async (c) => {
   try {
-    const body = await c.req.parseBody();
-    const fileNamesArray = body.files as string;
+    const body = await c.req.json();
+    const fileNameList = body.files as string[];
+    console.log("削除する画像ファイル:");
 
-    const imgFiles = JSON.parse(fileNamesArray as string) as string[];
-
-    if (!imgFiles || imgFiles.length === 0) {
+    if (!fileNameList || fileNameList.length === 0) {
+      console.warn("削除する画像ファイルが提供されていません");
       return c.json({ error: "削除する画像ファイルが提供されていません" }, 400);
     }
 
-    await deleteImgFile(imgFiles);
+    await deleteImgFile(fileNameList);
+    console.log("画像ファイルの削除が完了しました:", fileNameList);
     return c.json({ message: "画像ファイルの削除が完了しました" }, 200);
   } catch (error) {
     console.error("画像の削除に失敗しました:", error);

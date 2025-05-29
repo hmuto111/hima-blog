@@ -29,7 +29,7 @@ export async function deleteImgFile(files: string[]): Promise<void> {
         return;
       }
 
-      const filePath = path.join(process.cwd(), "public", file);
+      const filePath = path.join(process.cwd(), "public", "images", file);
       await unlink(filePath);
       console.log(`画像を削除しました： ${filePath}`);
     } catch (error) {

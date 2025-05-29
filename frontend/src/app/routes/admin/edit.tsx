@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate, useBeforeUnload } from "react-router-dom";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { getArticleContent } from "@/features/blog/api/get-article";
 import { addFile } from "@/features/admin/api/add-file";
@@ -47,35 +47,50 @@ const Edit = () => {
     setActiveTab(tabId);
   };
 
-  const message = "編集中の内容は保存されません。ページを離れますか？";
-
-  useBeforeUnload((e) => {
-    if (window.confirm(message) === false) {
-      e.preventDefault();
-    } else {
-      cleanupUnusedImages({ isDelete: true });
-    }
-  });
-
-  useEffect(() => {
-    const handleLinkClick = (e: Event) => {
-      const target = e.target as HTMLElement;
-
-      if (target.tagName === "A" || target.closest("a")) {
-        if (!window.confirm(message)) {
-          e.preventDefault();
-        } else {
-          cleanupUnusedImages({ isDelete: true });
+  const cleanupUnusedImages = useCallback(
+    async ({ isDelete }: { isDelete?: boolean }) => {
+      try {
+        if (files.length === 0) {
+          console.log("画像がありません");
+          return;
         }
+
+        if (article.content) {
+          if (isDelete) {
+            const res = await deleteFile(files);
+            if (res.message) {
+              console.log("対象記事の全ての画像を削除しました");
+            } else {
+              console.error("画像の削除に失敗しました");
+            }
+          } else {
+            const unusedFiles: ImageFile[] = files.filter((file) => {
+              if (!article.content.includes(file.file_name)) {
+                return file;
+              }
+            });
+
+            if (!unusedFiles) {
+              console.log("未使用の画像がありませんでした");
+              return;
+            }
+
+            if (unusedFiles.length > 0) {
+              const res = await deleteFile(unusedFiles);
+              if (res.message) {
+                console.log("未使用の画像を削除しました");
+              } else {
+                console.error("未使用の画像の削除に失敗しました");
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error("画像のクリーンアップに失敗しました", error);
       }
-    };
-
-    document.addEventListener("click", handleLinkClick);
-
-    return () => {
-      document.removeEventListener("click", handleLinkClick);
-    };
-  });
+    },
+    [files, article.content]
+  );
 
   const isEdit = location.state?.isEdit || false;
 
@@ -107,52 +122,6 @@ const Edit = () => {
       fetchArticleContent();
     }
   }, [id, isEdit]);
-
-  const cleanupUnusedImages = async ({
-    isDelete = false,
-  }: {
-    isDelete: boolean;
-  }) => {
-    try {
-      if (files.length === 0) {
-        console.log("画像がありません");
-        return;
-      }
-
-      if (!article.content) {
-        if (isDelete) {
-          const res = await deleteFile(files);
-          if (res.message) {
-            console.log("対象記事の全ての画像を削除しました");
-          } else {
-            console.error("画像の削除に失敗しました");
-          }
-        } else {
-          const unusedFiles: ImageFile[] = files.filter((file) => {
-            if (!article.content.includes(file.file_name)) {
-              return file;
-            }
-          });
-
-          if (!unusedFiles) {
-            console.log("未使用の画像がありませんでした");
-            return;
-          }
-
-          if (unusedFiles.length > 0) {
-            const res = await deleteFile(unusedFiles);
-            if (res.message) {
-              console.log("未使用の画像を削除しました");
-            } else {
-              console.error("未使用の画像の削除に失敗しました");
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error("画像のクリーンアップに失敗しました", error);
-    }
-  };
 
   const handleDelete = async () => {
     if (!window.confirm("記事を削除してもよろしいですか？")) return;
