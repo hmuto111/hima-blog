@@ -4,6 +4,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getArticleContent } from "@/features/blog/api/get-article";
 import { addFile } from "@/features/admin/api/add-file";
 import { deleteFile } from "@/features/admin/api/delete-file";
+import { createArticle } from "@/features/admin/api/create-article";
+import { deleteArticle } from "@/features/admin/api/delete-article";
+import { updateArticle } from "@/features/admin/api/update-article";
 
 import { MarkdownRender } from "@/features/blog/components/markdown/markdown-render";
 import { EditArticle } from "@/features/admin/components/edit-article/edit-article";
@@ -107,6 +110,7 @@ const Edit = () => {
 
           const articleContent = await getArticleContent(parseInt(id));
           setArticle({
+            id: articleContent.id,
             title: articleContent.title,
             tag: articleContent.tag,
             content: articleContent.content,
@@ -129,12 +133,10 @@ const Edit = () => {
 
     setIsSubmitting(true);
     try {
-      // await deleteArticle(parseInt(id));
-      // 疑似遅延
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await deleteArticle(parseInt(id));
       await cleanupUnusedImages({ isDelete: true });
       navigate(paths.admin.home.getHref());
-      alert("記事が削除されました");
+      alert(res.message);
     } catch (error) {
       console.error("削除に失敗しました", error);
       alert("記事の削除に失敗しました");
@@ -153,12 +155,10 @@ const Edit = () => {
 
     setIsSubmitting(true);
     try {
-      // await updateArticle(parseInt(id), article);
-      // 疑似遅延
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await updateArticle(article);
       await cleanupUnusedImages({ isDelete: false });
       navigate(paths.admin.home.getHref());
-      alert("記事が更新されました");
+      alert(res.message);
     } catch (error) {
       console.error("更新に失敗しました", error);
       alert("記事の更新に失敗しました");
@@ -177,12 +177,10 @@ const Edit = () => {
 
     setIsSubmitting(true);
     try {
-      // await createArticle(article);
-      // 疑似遅延
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const res = await createArticle(article);
       await cleanupUnusedImages({ isDelete: false });
       navigate(paths.admin.home.getHref());
-      alert("記事が投稿されました");
+      alert(res.message);
     } catch (error) {
       console.error("投稿に失敗しました", error);
       alert("記事の投稿に失敗しました");

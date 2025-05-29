@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma-client";
-import type { EditArticleType } from "../../routes/admin/types/article";
+import type { PostArticleType } from "../../routes/admin/types/article";
 import type { ArticleContentType } from "../../routes/web/types/article";
 
 const formatTags = async (tags: string[]) => {
@@ -27,7 +27,7 @@ const formatTags = async (tags: string[]) => {
 };
 
 export const createArticle = async (
-  article: EditArticleType
+  article: PostArticleType
 ): Promise<{ message: string }> => {
   try {
     const tagId = await formatTags(article.tag);

@@ -1,8 +1,8 @@
 import { prisma } from "../../lib/prisma-client";
-import type { ArticleContentType } from "../../routes/web/types/article";
+import type { UpdateArticleType } from "../../routes/admin/types/article";
 
 export const updateArticle = async (
-  articleContent: ArticleContentType
+  articleContent: UpdateArticleType
 ): Promise<{ message: string }> => {
   try {
     const tagIds = await Promise.all(
@@ -31,8 +31,6 @@ export const updateArticle = async (
         title: articleContent.title,
         img: articleContent.img,
         tag: tagIds,
-        view: articleContent.view,
-        post: new Date(articleContent.post),
         content: articleContent.content,
       },
     });

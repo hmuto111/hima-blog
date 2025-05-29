@@ -1,10 +1,65 @@
 import { Hono } from "hono";
-import * as path from "path";
 
 import { saveImgFile } from "../../../utils/save-img-file";
 import { deleteImgFile } from "../../../utils/delete-img-file";
+import type { PostArticleType, UpdateArticleType } from "../types/article";
+import { createArticle } from "../../../domain/article/createArticle";
+import { deleteArticle } from "../../../domain/article/deleteArticle";
+import { updateArticle } from "../../../domain/article/updateArticle";
 
 const adminArticleRouter = new Hono();
+
+adminArticleRouter.post("/post", async (c) => {
+  try {
+    const articleData: PostArticleType = await c.req.json();
+    if (!articleData || !articleData.title || !articleData.content) {
+      return c.json({ error: "記事のタイトルと内容は必須です" }, 400);
+    }
+
+    const res = await createArticle(articleData);
+    console.log("記事が正常に保存されました:", articleData.title);
+
+    return c.json({ message: res }, 200);
+  } catch (error) {
+    console.error("記事の保存に失敗しました:", error);
+    return c.json({ error: "記事の保存に失敗しました" }, 500);
+  }
+});
+
+adminArticleRouter.post("/delete", async (c) => {
+  try {
+    const { id }: { id: number } = await c.req.json();
+
+    if (!id) {
+      return c.json({ error: "記事IDが提供されていません" }, 400);
+    }
+
+    const res = await deleteArticle(id);
+    console.log("記事が正常に削除されました:", id);
+
+    return c.json({ message: res }, 200);
+  } catch (error) {
+    console.error("記事の削除に失敗しました:", error);
+    return c.json({ error: "記事の削除に失敗しました" }, 500);
+  }
+});
+
+adminArticleRouter.post("/update", async (c) => {
+  try {
+    const articleContent: UpdateArticleType = await c.req.json();
+    if (!articleContent || !articleContent.id) {
+      return c.json({ error: "記事IDと内容は必須です" }, 400);
+    }
+
+    const res = await updateArticle(articleContent);
+    console.log("記事が正常に更新されました:", articleContent.title);
+
+    return c.json({ message: res }, 200);
+  } catch (error) {
+    console.error("記事の更新に失敗しました:", error);
+    return c.json({ error: "記事の更新に失敗しました" }, 500);
+  }
+});
 
 adminArticleRouter.post("/image/upload", async (c) => {
   try {
