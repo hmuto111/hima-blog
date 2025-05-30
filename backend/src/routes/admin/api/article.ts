@@ -11,7 +11,14 @@ const adminArticleRouter = new Hono();
 
 adminArticleRouter.post("/post", async (c) => {
   try {
-    const articleData: PostArticleType = await c.req.json();
+    const form = await c.req.formData();
+    const articleData: PostArticleType = {
+      title: form.get("title") as string,
+      tag: JSON.parse(form.get("tag") as string),
+      img: form.get("img") as File | "",
+      content: form.get("content") as string,
+    };
+
     if (!articleData || !articleData.title || !articleData.content) {
       return c.json({ error: "記事のタイトルと内容は必須です" }, 400);
     }

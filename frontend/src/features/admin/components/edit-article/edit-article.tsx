@@ -19,6 +19,20 @@ export const EditArticle = ({ article, setArticle }: Props) => {
     });
   };
 
+  const handleAddImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setArticle({
+        ...article,
+        img: file,
+      });
+    } catch (error) {
+      console.error("ファイルのアップロードに失敗しました", error);
+    }
+  };
+
   return (
     <div className={styles.editor}>
       <input
@@ -33,12 +47,7 @@ export const EditArticle = ({ article, setArticle }: Props) => {
         <input
           type="file"
           accept="image/jpeg, image/png"
-          onChange={(e) =>
-            setArticle({
-              ...article,
-              img: e.target.files ? e.target.files[0].name : "",
-            })
-          }
+          onChange={(e) => handleAddImage(e)}
         />
       </div>
       <input

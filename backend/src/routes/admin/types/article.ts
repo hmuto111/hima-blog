@@ -2,7 +2,7 @@ export type PostArticleType = {
   title: string;
   tag: string[];
   content: string;
-  img?: string;
+  img?: File | "";
 };
 
 export type UpdateArticleType = {
@@ -10,5 +10,5 @@ export type UpdateArticleType = {
   title: string;
   tag: string[];
   content: string;
-  img?: string;
+  img?: File | "";
 };

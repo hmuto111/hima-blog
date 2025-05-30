@@ -1,6 +1,7 @@
 import { prisma } from "../../lib/prisma-client";
 import type { PostArticleType } from "../../routes/admin/types/article";
 import type { ArticleContentType } from "../../routes/web/types/article";
+import { saveImgFile } from "../../utils/save-img-file";
 
 const formatTags = async (tags: string[]) => {
   const formattedTags = await Promise.all(
@@ -46,11 +47,23 @@ export const createArticle = async (
       newArticle = await prisma.article.create({
         data: {
           title: article.title,
-          img: article.img,
+          img: article.img.name || "",
           tag: tagId.map((id: number) => id),
           content: article.content,
         },
       });
+      const arrayBuffer = await article.img.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const imgData = {
+        name: article.img.name,
+        data: buffer,
+        size: article.img.size,
+        mimetype: article.img.type,
+      };
+
+      const imgPath = await saveImgFile(imgData);
+      console.log("Image saved at:", imgPath);
     } else {
       newArticle = await prisma.article.create({
         data: {

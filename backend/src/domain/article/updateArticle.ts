@@ -29,7 +29,7 @@ export const updateArticle = async (
       },
       data: {
         title: articleContent.title,
-        img: articleContent.img,
+        img: articleContent.img?.name || "",
         tag: tagIds,
         content: articleContent.content,
       },
