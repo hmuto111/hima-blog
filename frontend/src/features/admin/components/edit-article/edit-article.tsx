@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { EditArticleType } from "../../types/edit-article";
 import styles from "./edit-article.module.css";
 
@@ -7,6 +8,17 @@ type Props = {
 };
 
 export const EditArticle = ({ article, setArticle }: Props) => {
+  const [tagInput, setTagInput] = useState<string>(article.tag.join(" "));
+
+  const handleTagChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTagInput(value);
+    setArticle({
+      ...article,
+      tag: e.target.value.split(" ").filter((tag) => tag !== ""),
+    });
+  };
+
   return (
     <div className={styles.editor}>
       <input
@@ -33,13 +45,8 @@ export const EditArticle = ({ article, setArticle }: Props) => {
         type="text"
         className={styles.tag}
         placeholder="タグを半角スペース区切りで入力..."
-        value={article.tag.join(" ")}
-        onChange={(e) =>
-          setArticle({
-            ...article,
-            tag: e.target.value.split(" ").filter((tag) => tag !== ""),
-          })
-        }
+        value={tagInput}
+        onChange={(e) => handleTagChange(e)}
       />
       <textarea
         className={styles.content_editor}
