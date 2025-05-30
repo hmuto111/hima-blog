@@ -55,6 +55,13 @@ const createAppRouter = () =>
             return { Component: module.default };
           },
         },
+        {
+          path: paths.admin.post.path,
+          lazy: async () => {
+            const module = await import("./routes/admin/edit");
+            return { Component: module.default };
+          },
+        },
       ],
     },
     {
