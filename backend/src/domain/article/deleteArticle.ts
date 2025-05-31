@@ -10,7 +10,10 @@ export const deleteArticle = async (id: number): Promise<string> => {
       },
     });
 
-    await deleteImgFile([path.basename(deletedArticle.img)]);
+    if (deletedArticle.img) {
+      console.log("Deleting image file:", deletedArticle.img);
+      await deleteImgFile([path.basename(deletedArticle.img)]);
+    }
 
     if (!deletedArticle) {
       return "failed to delete article";
