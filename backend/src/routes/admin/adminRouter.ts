@@ -7,8 +7,10 @@ export const adminRouter = new Hono()
   .use(
     "*",
     cors({
-      // 開発用設定
-      origin: (origin) => origin,
+      origin: (origin) =>
+        process.env.IS_DEVELOPMENT === "true"
+          ? origin
+          : process.env.ADMIN_ORIGIN,
       allowMethods: ["GET", "POST", "PATCH", "DELETE"],
       credentials: true,
     })
