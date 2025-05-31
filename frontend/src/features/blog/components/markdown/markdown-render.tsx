@@ -72,6 +72,19 @@ export const MarkdownRender = ({ content }: Props) => {
         },
         a: (props) => <CustomLink {...props} />,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        img: ({ node, alt, src, title, ...props }) => {
+          return (
+            <img
+              className={styles.image}
+              alt={alt || ""}
+              src={src}
+              title={title}
+              loading="lazy"
+              {...props}
+            />
+          );
+        },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         ul: ({ node, children, ...props }) => (
           <ul className={styles.list} {...props}>
             {children}

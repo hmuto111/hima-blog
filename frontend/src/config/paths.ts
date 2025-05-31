@@ -26,5 +26,9 @@ export const paths = {
       path: "/admin/edit/:blogId",
       getHref: () => "/admin/edit/${blogId}",
     },
+    post: {
+      path: "/admin/post",
+      getHref: () => "/admin/post",
+    },
   },
 } as const;

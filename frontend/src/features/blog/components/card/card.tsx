@@ -56,7 +56,7 @@ export const Card = ({ isEdit, path, article }: Props) => {
       state={{ article: article, postDate: formattedPostDate, isEdit: isEdit }}
     >
       <div className={styles.article_img}>
-        {article.img !== "none" ? (
+        {article.img ? (
           <img src={article.img} alt={article.title} />
         ) : (
           <img src={HimajinLogo} alt="Default Img" />

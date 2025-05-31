@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  //output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -11,7 +11,7 @@ datasource db {
 model article {
   id      Int      @id @default(autoincrement())
   title   String   @db.VarChar(255)
-  img     String   @db.VarChar(512)
+  img     String   @db.VarChar(512)   @default("")
   tag     Int[]    // タグIDの配列として定義
   view    Int      @default(0)
   post    DateTime @db.Timestamptz(6) @default(now())

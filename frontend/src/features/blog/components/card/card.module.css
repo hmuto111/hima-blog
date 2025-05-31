@@ -13,8 +13,8 @@
 
 .article_img {
   background-color: #efefef;
-  height: 35%;
-  min-height: 35%;
+  height: 100px;
+  min-height: 100px;
   width: 100%;
   border-radius: 10px;
   display: flex;

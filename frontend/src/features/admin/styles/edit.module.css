@@ -69,6 +69,28 @@
   background-color: #aaaaaa;
 }
 
+.add_image_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.add_image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.add_image:hover {
+  background-color: #aaaaaa;
+}
+
 .switch_container {
   display: flex;
   align-items: center;

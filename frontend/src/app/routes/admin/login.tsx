@@ -17,11 +17,14 @@ const AdminLogin = () => {
     setIsLoading(true);
 
     try {
-      const response = await api.post("/auth/login", { username, password });
+      const response = await api.post("admin/auth/login", {
+        username,
+        password,
+      });
       // トークンを保存
-      localStorage.setItem("authToken", response.data.token);
-      // 管理者ダッシュボードへリダイレクト
-      navigate("/admin");
+      // クッキーで保存する
+
+      navigate("/admin/home");
     } catch (err) {
       console.error("ログインエラー:", err);
       setError("ログインに失敗しました。再試行してください。");
