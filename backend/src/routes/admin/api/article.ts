@@ -33,7 +33,7 @@ adminArticleRouter.post("/post", async (c) => {
   }
 });
 
-adminArticleRouter.post("/delete", async (c) => {
+adminArticleRouter.delete("/delete", async (c) => {
   try {
     const { id }: { id: number } = await c.req.json();
 
