@@ -68,13 +68,11 @@ const Edit = () => {
               console.error("画像の削除に失敗しました");
             }
           } else {
-            const unusedFiles: ImageFile[] = files.filter((file) => {
-              if (!article.content.includes(file.file_name)) {
-                return file;
-              }
-            });
+            const unusedFiles: ImageFile[] = files.filter(
+              (file) => !article.content.includes(file.file_name)
+            );
 
-            if (!unusedFiles) {
+            if (unusedFiles.length === 0) {
               console.log("未使用の画像がありませんでした");
               return;
             }
