@@ -1,9 +1,10 @@
 import { prisma } from "../../lib/prisma-client";
 import type { UpdateArticleType } from "../../routes/admin/types/article";
+import { saveImgFile } from "../../utils/save-img-file";
 
 export const updateArticle = async (
   articleContent: UpdateArticleType
-): Promise<{ message: string }> => {
+): Promise<string> => {
   try {
     const tagIds = await Promise.all(
       articleContent.tag.map(async (tagName) => {
@@ -23,26 +24,63 @@ export const updateArticle = async (
       })
     );
 
-    const updatedArticle = await prisma.article.update({
-      where: {
-        id: articleContent.id,
-      },
-      data: {
-        title: articleContent.title,
-        img: articleContent.img?.name || "",
-        tag: tagIds,
-        content: articleContent.content,
-      },
-    });
+    let udArticle: {
+      tag: number[];
+      id: number;
+      title: string;
+      img: string;
+      view: number;
+      post: Date;
+      updated: Date;
+      content: string;
+    };
 
-    if (!updatedArticle) {
-      return { message: "failed to update article" };
+    if (articleContent?.img) {
+      const arrayBuffer = await articleContent.img.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const imgData = {
+        name: articleContent.img.name,
+        data: buffer,
+        size: articleContent.img.size,
+        mimetype: articleContent.img.type,
+      };
+
+      const imgInfo = await saveImgFile(imgData);
+      console.log("Image saved:", imgInfo.file_name);
+
+      udArticle = await prisma.article.update({
+        where: {
+          id: articleContent.id,
+        },
+        data: {
+          title: articleContent.title,
+          img: imgInfo.img_url || "",
+          tag: tagIds,
+          content: articleContent.content,
+        },
+      });
+    } else {
+      udArticle = await prisma.article.update({
+        where: {
+          id: articleContent.id,
+        },
+        data: {
+          title: articleContent.title,
+          tag: tagIds,
+          content: articleContent.content,
+        },
+      });
     }
 
-    return { message: "successfully updated article" };
+    if (!udArticle) {
+      return "failed to update article";
+    }
+
+    return "successfully updated article";
   } catch (error) {
     console.error("Error updating article:", error);
-    return { message: "failed to update article" };
+    return "failed to update article";
   }
 };
 
@@ -56,6 +94,10 @@ export const updateArticleView = async (id: number) => {
         view: { increment: 1 },
       },
     });
+
+    if (!result) {
+      return { message: "failed to update article view" };
+    }
 
     return { message: "successfully updated article view" };
   } catch (error) {

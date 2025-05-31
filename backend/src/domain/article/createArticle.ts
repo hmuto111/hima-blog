@@ -29,7 +29,7 @@ const formatTags = async (tags: string[]) => {
 
 export const createArticle = async (
   article: PostArticleType
-): Promise<{ message: string }> => {
+): Promise<string> => {
   try {
     const tagId = await formatTags(article.tag);
     let newArticle: {
@@ -44,14 +44,6 @@ export const createArticle = async (
     };
 
     if (article?.img) {
-      newArticle = await prisma.article.create({
-        data: {
-          title: article.title,
-          img: article.img.name || "",
-          tag: tagId.map((id: number) => id),
-          content: article.content,
-        },
-      });
       const arrayBuffer = await article.img.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
 
@@ -62,8 +54,17 @@ export const createArticle = async (
         mimetype: article.img.type,
       };
 
-      const imgPath = await saveImgFile(imgData);
-      console.log("Image saved at:", imgPath);
+      const imgInfo = await saveImgFile(imgData);
+      console.log("Image saved:", imgInfo.file_name);
+
+      newArticle = await prisma.article.create({
+        data: {
+          title: article.title,
+          img: imgInfo.img_url || "",
+          tag: tagId.map((id: number) => id),
+          content: article.content,
+        },
+      });
     } else {
       newArticle = await prisma.article.create({
         data: {
@@ -75,12 +76,12 @@ export const createArticle = async (
     }
 
     if (!newArticle) {
-      return { message: "failed to create article" };
+      return "failed to create article";
     }
 
-    return { message: "successfully created article" };
+    return "successfully created article";
   } catch (error) {
     console.error("Error creating article:", error);
-    return { message: "failed to create article" };
+    return "failed to create article";
   }
 };

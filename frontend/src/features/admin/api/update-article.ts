@@ -3,7 +3,20 @@ import { adminApi } from "@/lib/api-client";
 
 export const updateArticle = async (article: EditArticleType) => {
   try {
-    const response = await adminApi.post("/article/update", article);
+    const form = new FormData();
+    form.append("id", String(article.id));
+    form.append("title", article.title);
+    form.append("content", article.content);
+    form.append("tag", JSON.stringify(article.tag));
+    if (article.img) {
+      form.append("img", article.img);
+    } else {
+      form.append("img", "");
+    }
+
+    const response = await adminApi.post("/article/update", form, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
 
     if (response.status !== 200) {
       throw new Error("記事の更新に失敗しました");

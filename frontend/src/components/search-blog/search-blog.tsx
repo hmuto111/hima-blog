@@ -9,12 +9,6 @@ import { paths } from "@/config/paths";
 export const SearchBlog = ({ role }: { role?: string }) => {
   const navigate = useNavigate();
   const [tags, setTags] = useState<Tag[]>([]);
-  // const tags: Tag[] = [
-  //   { Python: 100 },
-  //   { javascript: 200 },
-  //   { typescript: 300 },
-  //   { cat: 1000 },
-  // ];
 
   useEffect(() => {
     const fetchTags = async () => {

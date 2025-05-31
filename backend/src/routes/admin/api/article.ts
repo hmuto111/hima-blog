@@ -53,7 +53,15 @@ adminArticleRouter.post("/delete", async (c) => {
 
 adminArticleRouter.post("/update", async (c) => {
   try {
-    const articleContent: UpdateArticleType = await c.req.json();
+    const form = await c.req.formData();
+    const articleContent: UpdateArticleType = {
+      id: parseInt(form.get("id") as string),
+      title: form.get("title") as string,
+      tag: JSON.parse(form.get("tag") as string),
+      img: form.get("img") as File | "",
+      content: form.get("content") as string,
+    };
+
     if (!articleContent || !articleContent.id) {
       return c.json({ error: "記事IDと内容は必須です" }, 400);
     }
@@ -89,14 +97,9 @@ adminArticleRouter.post("/image/upload", async (c) => {
       mimetype: file.type,
     };
 
-    const imgPath = await saveImgFile(imgData);
-    const imgUrl =
-      (process.env.IS_DEVELOPMENT as string) === "true"
-        ? (process.env.DEVELOP_URL as string) + imgPath
-        : (process.env.PRODUCTION_URL as string) + imgPath;
+    const imgInfo = await saveImgFile(imgData);
 
-    const fileName = imgPath.replace(/^.*\/images\//, "");
-    return c.json({ url: imgUrl, file_name: fileName }, 200);
+    return c.json({ url: imgInfo.img_url, file_name: imgInfo.file_name }, 200);
   } catch (error) {
     console.error("画像のアップロードに失敗しました:", error);
     return c.json({ error: "画像のアップロードに失敗しました" }, 500);

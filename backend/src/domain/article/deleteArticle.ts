@@ -1,8 +1,8 @@
+import * as path from "path";
 import { prisma } from "../../lib/prisma-client";
+import { deleteImgFile } from "../../utils/delete-img-file";
 
-export const deleteArticle = async (
-  id: number
-): Promise<{ message: string }> => {
+export const deleteArticle = async (id: number): Promise<string> => {
   try {
     const deletedArticle = await prisma.article.delete({
       where: {
@@ -10,13 +10,15 @@ export const deleteArticle = async (
       },
     });
 
+    await deleteImgFile([path.basename(deletedArticle.img)]);
+
     if (!deletedArticle) {
-      return { message: "failed to delete article" };
+      return "failed to delete article";
     }
 
-    return { message: "successfully deleted article" };
+    return "successfully deleted article";
   } catch (error) {
     console.error("Error deleting article:", error);
-    return { message: "failed to delete article" };
+    return "failed to delete article";
   }
 };

@@ -33,7 +33,7 @@ export async function deleteImgFile(files: string[]): Promise<void> {
       await unlink(filePath);
       console.log(`画像を削除しました： ${filePath}`);
     } catch (error) {
-      console.error(`画像の削除に失敗しました: ${file}`, error);
+      console.error(`画像の削除に失敗しました: ${file}\n`, error);
     }
   });
 

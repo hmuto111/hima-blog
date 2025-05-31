@@ -12,7 +12,6 @@ export const createArticle = async (article: EditArticleType) => {
     } else {
       form.append("img", "");
     }
-    form.append("content", article.content);
 
     const response = await adminApi.post("/article/post", form, {
       headers: { "Content-Type": "multipart/form-data" },
