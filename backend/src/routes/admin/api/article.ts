@@ -100,10 +100,10 @@ adminArticleRouter.post("/update", async (c) => {
 
 adminArticleRouter.post("/image/upload", async (c) => {
   try {
-    const body = await c.req.parseBody();
-    const file = body.file as File;
+    const form = await c.req.formData();
+    const file = form.get("file") as File;
 
-    if (!body || !file)
+    if (!form || !file)
       return c.json({ error: "画像データが提供されていません" }, 400);
 
     if (!file.type.startsWith("image/"))

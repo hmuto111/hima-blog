@@ -5,19 +5,21 @@ import { login } from "../../../domain/auth";
 const authRouter = new Hono();
 
 authRouter.post("/login", async (c) => {
-  const { username, password } = await c.req.json();
+  try {
+    const { username, password } = await c.req.json();
 
-  if (!username || !password) {
-    return c.json({ error: "ユーザー名とパスワードを提供してください" }, 400);
-  }
+    if (!username || !password) {
+      return c.json({ error: "ユーザー名とパスワードを提供してください" }, 400);
+    }
 
-  const token = await login(username, password);
+    const token = await login(username, password);
 
-  if (token) {
-    console.log("ログイン成功:", username);
-    console.log("トークン:", token);
-    return c.json({ token: token, message: "ログイン成功" }, 200);
-  } else {
+    if (token) {
+      console.log("ログイン成功:", username);
+      return c.json({ token: token, message: "ログイン成功" }, 200);
+    }
+  } catch (error) {
+    console.error("ログインエラー:", error);
     return c.json({ error: "認証に失敗しました" }, 401);
   }
 });
