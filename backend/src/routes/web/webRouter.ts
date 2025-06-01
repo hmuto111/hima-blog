@@ -2,14 +2,20 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import article from "./api/article.js";
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://hima-blog.vercel.app",
+];
+
 export const webRouter = new Hono()
   .use(
     "*",
     cors({
-      // 開発用設定
-      origin: (origin) => origin,
-      allowMethods: ["GET", "POST", "PATCH", "DELETE"],
-      credentials: true,
+      origin: (origin) => {
+        return allowedOrigins.includes(origin) ? origin : null;
+      },
+      allowMethods: ["GET", "POST", "PATCH"],
+      credentials: false,
     })
   )
   .basePath("/v1")
