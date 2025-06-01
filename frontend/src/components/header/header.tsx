@@ -21,7 +21,9 @@ export const Header = ({ role }: { role?: string }) => {
         <Link to={paths.app.home.path} style={{ textDecoration: "none" }}>
           <p>home</p>
         </Link>
-        <p>portfolio</p>
+        <Link to={paths.portfolio.path} style={{ textDecoration: "none" }}>
+          <p>portfolio</p>
+        </Link>
       </div>
     </div>
   );

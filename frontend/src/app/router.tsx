@@ -30,6 +30,13 @@ const createAppRouter = () =>
       ],
     },
     {
+      path: paths.portfolio.path,
+      lazy: async () => {
+        const module = await import("./routes/portfolio");
+        return { Component: module.default };
+      },
+    },
+    {
       path: paths.admin.login.path,
       lazy: async () => {
         const module = await import("./routes/admin/login");
