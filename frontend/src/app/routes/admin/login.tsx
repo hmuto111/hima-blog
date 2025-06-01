@@ -39,15 +39,11 @@ const AdminLogin = () => {
         throw new Error("トークンが取得できませんでした。");
       }
 
-      if (token) {
-        Cookies.set("admin_token", token, {
-          expires: 1,
-          secure: import.meta.env.NODE_ENV === "production",
-          sameSite: "strict",
-        });
-      } else {
-        throw new Error("トークンが取得できませんでした。");
-      }
+      Cookies.set("admin_token", token, {
+        expires: 1,
+        secure: import.meta.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
 
       navigate(paths.admin.home.path);
     } catch (err) {
