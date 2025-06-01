@@ -123,39 +123,39 @@ FOR EACH ROW
 EXECUTE FUNCTION decrease_tag_used_count();
 
 -- タグの追加
-INSERT INTO tag (name) VALUES
-    ('Python'),
-    ('JavaScript'),
-    ('TypeScript'),
-    ('Docker'),
-    ('PostgreSQL');
+-- INSERT INTO tag (name) VALUES
+--    ('Python'),
+--    ('JavaScript'),
+--    ('TypeScript'),
+--    ('Docker'),
+--    ('PostgreSQL');
 
 -- 記事の追加
-INSERT INTO article (title, img, tag, view, post, updated, content) VALUES
-(
-    'Dockerではじめる開発環境',
-    'https://example.com/docker.jpg',
-    ARRAY[4, 5], -- Docker, PostgreSQL
-    100,
-    NOW(),
-    NOW(),
-    '# Dockerではじめる開発環境
-## はじめに
-Dockerを使った開発環境の構築方法を解説します。
-## PostgreSQLコンテナの作成
-...'
-),
-(
-    'TypeScriptとPythonで始める Web開発',
-    'https://example.com/web-dev.jpg',
-    ARRAY[1, 3], -- Python, TypeScript
-    150,
-    NOW() - INTERVAL '2 days',
-    NOW() - INTERVAL '2 days',
-    '# TypeScriptとPythonで始める Web開発
-## フロントエンド
-TypeScriptの基本的な使い方
-## バックエンド
-Pythonでのサーバー構築
-...'
-);
+-- INSERT INTO article (title, img, tag, view, post, updated, content) VALUES
+-- (
+--     'Dockerではじめる開発環境',
+--     'https://example.com/docker.jpg',
+--     ARRAY[4, 5], -- Docker, PostgreSQL
+--     100,
+--     NOW(),
+--     NOW(),
+--     '# Dockerではじめる開発環境
+-- ## はじめに
+-- Dockerを使った開発環境の構築方法を解説します。
+-- ## PostgreSQLコンテナの作成
+-- ...'
+-- ),
+-- (
+--     'TypeScriptとPythonで始める Web開発',
+--     'https://example.com/web-dev.jpg',
+--     ARRAY[1, 3], -- Python, TypeScript
+--     150,
+--     NOW() - INTERVAL '2 days',
+--     NOW() - INTERVAL '2 days',
+--     '# TypeScriptとPythonで始める Web開発
+-- ## フロントエンド
+-- TypeScriptの基本的な使い方
+-- ## バックエンド
+-- Pythonでのサーバー構築
+-- ...'
+-- );

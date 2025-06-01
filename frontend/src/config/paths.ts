@@ -9,6 +9,10 @@ export const paths = {
       getHref: () => "/blog/${blogId}",
     },
   },
+  portfolio: {
+    path: "/portfolio",
+    getHref: () => "/portfolio",
+  },
   admin: {
     root: {
       path: "/admin",
