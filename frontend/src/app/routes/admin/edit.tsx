@@ -19,6 +19,7 @@ import styles from "@/features/admin/styles/edit.module.css";
 import { ImageFile } from "@/features/admin/types/image";
 import { extractImageFileNames } from "@/features/admin/utils/extract-filename";
 import { paths } from "@/config/paths";
+import { useAuth } from "@/features/admin/hooks/useAuth";
 
 const Edit = () => {
   const location = useLocation();
@@ -38,6 +39,8 @@ const Edit = () => {
   const id = window.location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
+
+  useAuth();
 
   const tabs: {
     id: number;

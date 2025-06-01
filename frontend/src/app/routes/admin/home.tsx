@@ -7,6 +7,7 @@ import { ArticleInfo } from "@/features/blog/types/article";
 import { v4 as uuid } from "uuid";
 import styles from "@/features/admin/styles/home.module.css";
 import { getArticleData } from "@/features/blog/api/get-article";
+import { useAuth } from "@/features/admin/hooks/useAuth";
 import { paths } from "@/config/paths";
 
 const AdminHome = () => {
@@ -15,6 +16,8 @@ const AdminHome = () => {
   const [articleData, setArticleData] = useState<ArticleInfo[]>([]);
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useAuth();
 
   useEffect(() => {
     if (location.state?.searchResult) {
