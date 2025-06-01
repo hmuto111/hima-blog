@@ -23,13 +23,13 @@ authRouter.post("/login", async (c) => {
 });
 
 authRouter.post("/verify", async (c) => {
-  const token = c.req.header("Authorization")?.replace("Bearer ", "");
+  const token = c.req.header("Authorization");
   if (!token) {
     return c.json({ error: "トークンが提供されていません" }, 401);
   }
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET as string);
+    const decoded = await verify(token, process.env.JWT_SECRET as string);
 
     if (!decoded) {
       return c.json({ isValid: false, error: "トークンが無効です" }, 401);

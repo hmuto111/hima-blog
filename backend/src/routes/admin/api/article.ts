@@ -6,8 +6,30 @@ import type { PostArticleType, UpdateArticleType } from "../types/article";
 import { createArticle } from "../../../domain/article/createArticle";
 import { deleteArticle } from "../../../domain/article/deleteArticle";
 import { updateArticle } from "../../../domain/article/updateArticle";
+import { verify } from "hono/jwt";
 
 const adminArticleRouter = new Hono();
+
+adminArticleRouter.use("*", async (c, next) => {
+  const token = c.req.header("Authorization");
+  if (!token) {
+    return c.json({ error: "認証トークンが提供されていません" }, 401);
+  }
+
+  try {
+    const decoded = await verify(token, process.env.JWT_SECRET as string);
+
+    if (!decoded) {
+      return c.json({ isValid: false, error: "トークンが無効です" }, 401);
+    }
+
+    console.log("トークンが検証されました:", decoded);
+    await next();
+  } catch (error) {
+    console.error("トークン検証エラー:", error);
+    return c.json({ isValid: false, error: "トークンが無効です" }, 401);
+  }
+});
 
 adminArticleRouter.post("/post", async (c) => {
   try {
