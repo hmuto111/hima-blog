@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import { paths } from "@/config/paths";
 import logoSrc from "@/assets/himajin-logo.png";
 import styles from "./header.module.css";
@@ -6,12 +6,12 @@ import styles from "./header.module.css";
 export const Header = ({ role }: { role?: string }) => {
   return (
     <div className={styles.header}>
-      <div className={styles.app_title}>
-        <Link to={paths.app.home.path} className={styles.app_logo}>
+      <Link to={paths.app.home.path} className={styles.app_title}>
+        <div className={styles.app_logo}>
           <img src={logoSrc} alt="system logo" />
-        </Link>
+        </div>
         <div className={styles.app_name}>Hima Blog</div>
-      </div>
+      </Link>
       <div className={styles.menu}>
         {role === "admin" && (
           <Link to={paths.admin.home.path} style={{ textDecoration: "none" }}>
