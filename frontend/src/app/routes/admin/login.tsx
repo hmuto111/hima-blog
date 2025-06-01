@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Spinner from "@/components/spinner/spinner";
 import { paths } from "@/config/paths";
@@ -16,6 +16,14 @@ const AdminLogin = () => {
   const navigate = useNavigate();
 
   useAuth(true);
+
+  useEffect(() => {
+    document.title = "管理者ログイン - Hima Blog";
+
+    return () => {
+      document.title = "Hima Blog";
+    };
+  }, []);
 
   const MAX_ATTEMPTS = 5;
 

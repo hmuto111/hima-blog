@@ -40,7 +40,23 @@ const Edit = () => {
     location.pathname.lastIndexOf("/") + 1
   );
 
+  const isEdit = location.state?.isEdit || false;
+
   useAuth();
+
+  useEffect(() => {
+    if (isEdit && article.title) {
+      document.title = `編集: ${article.title} - Hima Blog`;
+    } else if (isEdit) {
+      document.title = "記事編集 - Hima Blog";
+    } else {
+      document.title = "新規投稿 - Hima Blog";
+    }
+
+    return () => {
+      document.title = "Hima Blog";
+    };
+  }, [isEdit, article.title]);
 
   const tabs: {
     id: number;
@@ -96,8 +112,6 @@ const Edit = () => {
     },
     [files, article.content]
   );
-
-  const isEdit = location.state?.isEdit || false;
 
   useEffect(() => {
     if (isEdit && id) {

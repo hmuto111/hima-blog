@@ -14,6 +14,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    document.title = "ホーム - Hima Blog";
+
+    return () => {
+      document.title = "Hima Blog";
+    };
+  }, []);
+
+  useEffect(() => {
     if (location.state?.searchResult) {
       setArticleData(location.state.searchResult.articles);
       setMessage(location.state.searchResult.message);

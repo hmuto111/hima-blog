@@ -17,6 +17,18 @@ const Blog = () => {
   );
 
   useEffect(() => {
+    if (articleContent?.title) {
+      document.title = `${articleContent.title} - Hima Blog`;
+    } else {
+      document.title = "記事を読み込み中... - Hima Blog";
+    }
+
+    return () => {
+      document.title = "Hima Blog";
+    };
+  }, [articleContent?.title]);
+
+  useEffect(() => {
     try {
       const VIEW_COUNTUP_DELAY_MS = 30000;
       if (viewedArticleRef.current.has(location.pathname)) {
