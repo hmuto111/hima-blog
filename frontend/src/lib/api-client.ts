@@ -11,7 +11,7 @@ function authRequestInterceptor(config: InternalAxiosRequestConfig) {
 export const api = Axios.create({
   baseURL: import.meta.env.IS_DEVELOPMENT
     ? `http://localhost:3000/api/v1`
-    : `${import.meta.env.VITE_API_BASE_URL}`,
+    : `${import.meta.env.API_BASE_URL}`,
   withCredentials: false,
 });
 
@@ -30,7 +30,7 @@ api.interceptors.response.use(
 export const adminApi = Axios.create({
   baseURL: import.meta.env.IS_DEVELOPMENT
     ? `http://localhost:3000/admin/v1`
-    : `${import.meta.env.VITE_ADMIN_API_BASE_URL}`,
+    : `${import.meta.env.ADMIN_API_BASE_URL}`,
   withCredentials: true,
 });
 
