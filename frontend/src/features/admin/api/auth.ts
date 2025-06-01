@@ -28,7 +28,7 @@ export const verifyToken = async (token: string): Promise<boolean> => {
   try {
     const response = await adminApi.post("/auth/verify", null, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `${token}`,
       },
     });
     return response.data.isValid;

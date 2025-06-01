@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { EditArticleType } from "../types/edit-article";
 import { adminApi } from "@/lib/api-client";
 
@@ -13,8 +14,17 @@ export const createArticle = async (article: EditArticleType) => {
       form.append("img", "");
     }
 
+    const token = Cookies.get("admin_token");
+
+    if (!token) {
+      throw new Error("認証トークンが見つかりません。ログインしてください。");
+    }
+
     const response = await adminApi.post("/article/post", form, {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `${token}`,
+      },
     });
 
     if (response.status !== 200) {
