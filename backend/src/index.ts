@@ -4,9 +4,25 @@ import { webRouter } from "./routes/web/webRouter.js";
 import { adminRouter } from "./routes/admin/adminRouter.js";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { prisma } from "./lib/prisma-client.js";
+import cron from "node-cron";
+import { execSync } from "child_process";
 import * as dotenv from "dotenv";
 
 dotenv.config();
+
+// 3日おき（72時間）にクリーンアップ実行
+if (process.env.IS_DEVELOPMENT === "false") {
+  cron.schedule("0 0 */3 * *", () => {
+    console.log("クリーンアップスクリプトを実行中...");
+    try {
+      execSync("pnpm cleanup-unused");
+      console.log("クリーンアップ完了");
+    } catch (error) {
+      console.error("クリーンアップエラー:", error);
+    }
+  });
+  console.log("クリーンアップスクリプトのスケジュールを設定しました");
+}
 
 const app = new Hono()
   .route("/api", webRouter)
