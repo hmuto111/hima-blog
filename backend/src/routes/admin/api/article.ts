@@ -23,7 +23,7 @@ adminArticleRouter.use("*", async (c, next) => {
       return c.json({ isValid: false, error: "トークンが無効です" }, 401);
     }
 
-    console.log("トークンが検証されました:", decoded);
+    console.log("トークンが検証されました:");
     await next();
   } catch (error) {
     console.error("トークン検証エラー:", error);
