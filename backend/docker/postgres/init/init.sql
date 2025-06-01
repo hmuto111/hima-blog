@@ -22,6 +22,12 @@ CREATE TABLE IF NOT EXISTS tag (
     used INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(128) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
 -- インデックスの作成
 CREATE INDEX idx_article_post ON article(post);
 CREATE INDEX idx_article_tag ON article USING GIN(tag);
