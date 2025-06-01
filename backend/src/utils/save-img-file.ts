@@ -23,7 +23,7 @@ export async function saveImgFile(
 
     const relativePath = filePath.replace(/^.*?public/, "");
     const imgUrl =
-      (process.env.IS_DEVELOPMENT as string) === "true"
+      (process.env.VITE_IS_DEVELOPMENT as string) === "true"
         ? (process.env.DEVELOP_URL as string) + relativePath
         : (process.env.PRODUCTION_URL as string) + relativePath;
 

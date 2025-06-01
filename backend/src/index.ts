@@ -11,7 +11,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // 3日おき（72時間）にクリーンアップ実行
-if (process.env.IS_DEVELOPMENT === "false") {
+if (process.env.VITE_IS_DEVELOPMENT === "false") {
   cron.schedule("0 0 */3 * *", () => {
     console.log("クリーンアップスクリプトを実行中...");
     try {
@@ -42,7 +42,7 @@ serve(
   (info) => {
     console.log(
       `Server is running on ${
-        process.env.IS_DEVELOPMENT === "true"
+        process.env.VITE_IS_DEVELOPMENT === "true"
           ? process.env.DEVELOP_URL
           : process.env.PRODUCTION_URL
       } (port: ${info.port})`
