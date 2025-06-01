@@ -2,8 +2,8 @@ import type {
   ArticleContentType,
   Article,
   Tag,
-} from "../routes/web/types/article";
-import { dateToString } from "./date-to-string";
+} from "../routes/web/types/article.js";
+import { dateToString } from "./date-to-string.js";
 
 const transformArticle = (
   article: Article,
