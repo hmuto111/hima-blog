@@ -1,32 +1,58 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { api } from "@/lib/api-client";
 import Spinner from "@/components/spinner/spinner";
+import { paths } from "@/config/paths";
 import styles from "@/features/admin/styles/login.module.css";
+import { login } from "@/features/admin/api/auth";
+import Cookies from "js-cookie";
+import { useAuth } from "@/features/admin/hooks/useAuth";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [attempts, setAttempts] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  useAuth(true);
+
+  const MAX_ATTEMPTS = 5;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (attempts >= MAX_ATTEMPTS) {
+      setError(
+        "ログイン試行回数が制限を超えました。しばらくしてから再試行してください。"
+      );
+      return;
+    }
+
     setError(null);
     setIsLoading(true);
 
     try {
-      const response = await api.post("admin/auth/login", {
-        username,
-        password,
-      });
-      // トークンを保存
-      // クッキーで保存する
+      const token = await login(username, password);
 
-      navigate("/admin/home");
+      if (!token) {
+        throw new Error("トークンが取得できませんでした。");
+      }
+
+      if (token) {
+        Cookies.set("admin_token", token, {
+          expires: 1,
+          secure: import.meta.env.NODE_ENV === "production",
+          sameSite: "strict",
+        });
+      } else {
+        throw new Error("トークンが取得できませんでした。");
+      }
+
+      navigate(paths.admin.home.path);
     } catch (err) {
       console.error("ログインエラー:", err);
+      setAttempts((prev) => prev + 1);
       setError("ログインに失敗しました。再試行してください。");
     } finally {
       setIsLoading(false);
@@ -69,7 +95,7 @@ const AdminLogin = () => {
 
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isLoading || attempts >= MAX_ATTEMPTS}
             className={styles.submit_button}
           >
             {isLoading ? <Spinner size="small" /> : "ログイン"}
