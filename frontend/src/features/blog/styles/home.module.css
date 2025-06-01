@@ -1,0 +1,26 @@
+.container_wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.search_message {
+  display: flex;
+  width: 100%;
+  font-weight: bold;
+  box-sizing: border-box;
+  position: relative;
+  color: #616161;
+}
+
+.card_container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+}

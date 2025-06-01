@@ -1,0 +1,23 @@
+.article_container {
+  display: grid;
+  grid-template-columns: 0.8fr 4.2fr;
+  gap: 20px;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
+}
+
+.article_index {
+  position: sticky;
+  top: calc(82px + 2.5rem);
+  bottom: 20px;
+  max-height: calc(100vh - 100px);
+  height: auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 90px;
+  align-self: flex-start;
+}

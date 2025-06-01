@@ -1,0 +1,125 @@
+.editor {
+  display: grid;
+  grid-template-columns: 0.5fr 4.5fr;
+  gap: 20px;
+  width: 100%;
+  min-height: 100%;
+  position: relative;
+  flex: 1;
+}
+
+.loading_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner_container {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.features_wrap {
+  position: sticky;
+  top: calc(82px + 2.5rem);
+  bottom: 20px;
+  max-height: calc(100vh - 100px);
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 90px;
+  align-self: flex-start;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-height: 100%;
+}
+
+.features button {
+  width: 100%;
+  height: 35px;
+  border: none;
+  box-shadow: 0 0 3px #a0a0a0;
+  border-radius: 5px;
+  background-color: #cccccc;
+}
+
+.features button:hover {
+  background-color: #aaaaaa;
+}
+
+.add_image_wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.add_image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  background-color: #cccccc;
+  cursor: pointer;
+}
+
+.add_image:hover {
+  background-color: #aaaaaa;
+}
+
+.switch_container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+}
+
+.switch_container button.active {
+  background-color: #aaaaaa;
+  font-weight: bold;
+}
+
+.crud_buttons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+}
+
+.editor_main {
+  background-color: #eeeeee;
+  box-sizing: border-box;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+}

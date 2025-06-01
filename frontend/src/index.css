@@ -1,0 +1,15 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  background-color: #d9d9d9;
+}
+
+#root {
+  height: 100%;
+  flex: 1;
+}
