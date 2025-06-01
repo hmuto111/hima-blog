@@ -1,7 +1,7 @@
-import { prisma } from "../../lib/prisma-client";
-import type { PostArticleType } from "../../routes/admin/types/article";
-import type { ArticleContentType } from "../../routes/web/types/article";
-import { saveImgFile } from "../../utils/save-img-file";
+import { prisma } from "../../lib/prisma-client.js";
+import type { PostArticleType } from "../../routes/admin/types/article.js";
+import type { ArticleContentType } from "../../routes/web/types/article.js";
+import { saveImgFile } from "../../utils/save-img-file.js";
 
 const formatTags = async (tags: string[]) => {
   const formattedTags = await Promise.all(

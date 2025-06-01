@@ -1,6 +1,6 @@
-import { prisma } from "../../lib/prisma-client";
-import type { UpdateArticleType } from "../../routes/admin/types/article";
-import { saveImgFile } from "../../utils/save-img-file";
+import { prisma } from "../../lib/prisma-client.js";
+import type { UpdateArticleType } from "../../routes/admin/types/article.js";
+import { saveImgFile } from "../../utils/save-img-file.js";
 
 export const updateArticle = async (
   articleContent: UpdateArticleType

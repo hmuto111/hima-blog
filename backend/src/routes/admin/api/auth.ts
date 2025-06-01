@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { verify } from "hono/jwt";
-import { login } from "../../../domain/auth";
+import { login } from "../../../domain/auth.js";
 
 const authRouter = new Hono();
 
