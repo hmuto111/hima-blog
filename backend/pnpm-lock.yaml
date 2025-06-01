@@ -20,6 +20,9 @@ importers:
       node-cron:
         specifier: ^4.1.0
         version: 4.1.0
+      postgres:
+        specifier: ^3.4.7
+        version: 3.4.7
       uuid:
         specifier: ^11.1.0
         version: 11.1.0
@@ -327,6 +330,10 @@ packages:
     resolution: {integrity: sha512-OS+3ORu+h03/haS6Di8Qr7CrVs4YaKZZOynZwQpyPZDnR3tqRbwJmuP2gVR16JfhLgyNlloAV1VTrrWlRogCFA==}
     engines: {node: '>=6.0.0'}
 
+  postgres@3.4.7:
+    resolution: {integrity: sha512-Jtc2612XINuBjIl/QTWsV5UvE8UHuNblcO3vVADSrKsrc6RqGX6lOW1cEo3CM2v0XG4Nat8nI+YM7/f26VxXLw==}
+    engines: {node: '>=12'}
+
   prisma@6.7.0:
     resolution: {integrity: sha512-vArg+4UqnQ13CVhc2WUosemwh6hr6cr6FY2uzDvCIFwH8pu8BXVv38PktoMLVjtX7sbYThxbnZF5YiR8sN2clw==}
     engines: {node: '>=18.18'}
@@ -587,6 +594,8 @@ snapshots:
   ms@2.1.3: {}
 
   node-cron@4.1.0: {}
+
+  postgres@3.4.7: {}
 
   prisma@6.7.0(typescript@5.8.3):
     dependencies:
