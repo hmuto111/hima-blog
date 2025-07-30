@@ -1,4 +1,4 @@
-import { getS3Client } from "..";
+import { getS3Client } from "./init-s3client.js";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
