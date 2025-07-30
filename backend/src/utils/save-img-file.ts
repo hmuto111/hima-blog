@@ -1,6 +1,7 @@
 import { writeFile } from "fs/promises";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
 type ImgData = {
   name: string;
@@ -13,21 +14,44 @@ export async function saveImgFile(
   file: ImgData
 ): Promise<{ img_url: string; file_name: string }> {
   try {
-    const uploadDir = path.join("public", "images");
+    const s3Client =
+      process.env.VITE_IS_DEVELOPMENT === "true"
+        ? new S3Client({
+            region: process.env.AWS_REGION,
+            profile: process.env.AWS_PROFILE,
+          })
+        : new S3Client({
+            region: process.env.AWS_REGION,
+            credentials: {
+              accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+              secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+            },
+          });
 
-    const uniqueFileName = `${uuid()}${path.extname(file.name).toLowerCase()}`;
-    const filePath = path.join(uploadDir, uniqueFileName).replace(/\s+/g, "_");
-    await writeFile(filePath, file.data);
+    const bucketName = process.env.AWS_BUCKET_NAME as string;
+    console.log(`Bucket Name: ${bucketName}`);
 
-    console.log(`画像を保存しました： ${filePath}`);
+    if (!bucketName) {
+      throw new Error(
+        "AWS_BUCKET_NAME is not defined in environment variables"
+      );
+    }
 
-    const relativePath = filePath.replace(/^.*?public/, "");
-    const imgUrl =
-      (process.env.VITE_IS_DEVELOPMENT as string) === "true"
-        ? (process.env.DEVELOP_URL as string) + relativePath
-        : (process.env.PRODUCTION_URL as string) + relativePath;
+    const fileName = `${uuid()}${path.extname(file.name).toLowerCase()}`;
 
-    const fileName = relativePath.replace(/^.*\/images\//, "");
+    const folderPath = "images";
+    const s3Key = `${folderPath}/${fileName}`;
+
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: bucketName,
+        Key: s3Key,
+        Body: file.data,
+        ContentType: file.mimetype,
+      })
+    );
+
+    const imgUrl = `${process.env.AWS_IMAGE_STORE_URL}/${fileName}`;
 
     return { img_url: imgUrl, file_name: fileName };
   } catch (error) {

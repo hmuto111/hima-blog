@@ -1,5 +1,8 @@
 import * as path from "path";
-import { unlink } from "fs/promises";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const ALLOWED_IMAGE_EXTENSIONS = [
   ".jpg",
@@ -22,6 +25,26 @@ export async function deleteImgFile(files: string[]): Promise<void> {
     return;
   }
 
+  const s3Client =
+    process.env.VITE_IS_DEVELOPMENT === "true"
+      ? new S3Client({
+          region: process.env.AWS_REGION,
+          profile: process.env.AWS_PROFILE,
+        })
+      : new S3Client({
+          region: process.env.AWS_REGION,
+          credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
+          },
+        });
+
+  const bucketName = process.env.AWS_BUCKET_NAME as string;
+
+  if (!bucketName) {
+    throw new Error("AWS_BUCKET_NAME is not defined in environment variables");
+  }
+
   const deletePromises = files.map(async (file) => {
     try {
       if (!isImageFile(file)) {
@@ -29,9 +52,16 @@ export async function deleteImgFile(files: string[]): Promise<void> {
         return;
       }
 
-      const filePath = path.join(process.cwd(), "public", "images", file);
-      await unlink(filePath);
-      console.log(`画像を削除しました： ${filePath}`);
+      const s3Key = `images/${path.basename(file)}`;
+
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: bucketName,
+          Key: s3Key,
+        })
+      );
+
+      console.log(`画像を削除しました： ${file}`);
     } catch (error) {
       console.error(`画像の削除に失敗しました: ${file}\n`, error);
     }

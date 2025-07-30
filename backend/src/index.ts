@@ -10,9 +10,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-// 3日おき（72時間）にクリーンアップ実行
+// 7日おきにクリーンアップ実行
 if (process.env.VITE_IS_DEVELOPMENT === "false") {
-  cron.schedule("0 0 */3 * *", () => {
+  cron.schedule("0 0 */7 * *", () => {
     console.log("クリーンアップスクリプトを実行中...");
     try {
       execSync("pnpm cleanup-unused");
