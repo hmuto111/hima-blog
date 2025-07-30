@@ -1,5 +1,7 @@
 import { S3Client } from "@aws-sdk/client-s3";
 
+let s3Client: S3Client | null = null;
+
 export const initS3Client = () => {
   try {
     console.log("S3クライアントを初期化しています...");
@@ -31,4 +33,14 @@ export const initS3Client = () => {
     console.error("S3クライアント初期化エラー:", error);
     throw error;
   }
+};
+
+export const getS3Client = () => {
+  if (!s3Client) {
+    s3Client = initS3Client();
+    if (!s3Client) {
+      throw new Error("S3クライアントが初期化されていません");
+    }
+  }
+  return s3Client;
 };
