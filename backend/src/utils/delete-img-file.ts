@@ -1,6 +1,5 @@
 import * as path from "path";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { initS3Client } from "./init-s3client";
 import { getS3Client } from "..";
 
 const ALLOWED_IMAGE_EXTENSIONS = [

@@ -8,7 +8,7 @@ export const initS3Client = () => {
       throw new Error("AWS_REGION 環境変数が設定されていません。");
     }
 
-    if (!process.env.AWS_ACCESS_KEY_ID && !process.env.AWS_SECRET_ACCESS_KEY) {
+    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
       throw new Error("AWS認証情報が設定されていません。");
     }
 

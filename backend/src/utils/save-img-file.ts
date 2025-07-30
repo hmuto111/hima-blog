@@ -2,7 +2,6 @@ import { getS3Client } from "..";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { initS3Client } from "./init-s3client";
 
 type ImgData = {
   name: string;
