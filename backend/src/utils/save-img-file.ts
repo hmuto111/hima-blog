@@ -1,7 +1,8 @@
 import { writeFile } from "fs/promises";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { initS3Client } from "./init-s3client";
 
 type ImgData = {
   name: string;
@@ -14,22 +15,13 @@ export async function saveImgFile(
   file: ImgData
 ): Promise<{ img_url: string; file_name: string }> {
   try {
-    const s3Client =
-      process.env.VITE_IS_DEVELOPMENT === "true"
-        ? new S3Client({
-            region: process.env.AWS_REGION,
-            profile: process.env.AWS_PROFILE,
-          })
-        : new S3Client({
-            region: process.env.AWS_REGION,
-            credentials: {
-              accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-              secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
-            },
-          });
+    const s3Client = initS3Client();
 
     const bucketName = process.env.AWS_BUCKET_NAME as string;
-    console.log(`Bucket Name: ${bucketName}`);
+
+    if (process.env.VITE_IS_DEVELOPMENT === "true") {
+      console.log(`Bucket Name: ${bucketName}`);
+    }
 
     if (!bucketName) {
       throw new Error(

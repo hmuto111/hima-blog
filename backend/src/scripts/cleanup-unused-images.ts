@@ -1,25 +1,14 @@
 import { prisma } from "../lib/prisma-client.js";
 import { deleteImgFile } from "../utils/delete-img-file.js";
 import { extractImageFileNames } from "../utils/extract-filename.js";
-import { S3Client, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { ListObjectsV2Command } from "@aws-sdk/client-s3";
 import dotenv from "dotenv";
+import { initS3Client } from "../utils/init-s3client.js";
 
 dotenv.config();
 
 async function main() {
-  const s3Client =
-    process.env.VITE_IS_DEVELOPMENT === "true"
-      ? new S3Client({
-          region: process.env.AWS_REGION,
-          profile: process.env.AWS_PROFILE,
-        })
-      : new S3Client({
-          region: process.env.AWS_REGION,
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID as string,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
-          },
-        });
+  const s3Client = initS3Client();
 
   const articles = await prisma.article.findMany({
     select: { content: true },
