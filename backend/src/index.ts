@@ -7,6 +7,7 @@ import { prisma } from "./lib/prisma-client.js";
 import cron from "node-cron";
 import { execSync } from "child_process";
 import * as dotenv from "dotenv";
+import { initS3Client } from "./utils/init-s3client.js";
 
 dotenv.config();
 
@@ -34,6 +35,8 @@ const app = new Hono()
     })
   );
 
+const s3Client = initS3Client();
+
 serve(
   {
     fetch: app.fetch,
@@ -49,6 +52,13 @@ serve(
     );
   }
 );
+
+export const getS3Client = () => {
+  if (!s3Client) {
+    throw new Error("S3クライアントが初期化されていません");
+  }
+  return s3Client;
+};
 
 const cleanup = async () => {
   console.log("サーバーのシャットダウンを開始します");

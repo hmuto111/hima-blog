@@ -15,7 +15,7 @@ async function main() {
   });
 
   const allUsedImages = new Set<string>();
-  articles.forEach((article: { content: string }) => {
+  articles.forEach((article) => {
     extractImageFileNames(article.content).forEach((f) => allUsedImages.add(f));
   });
 

@@ -1,6 +1,7 @@
 import * as path from "path";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { initS3Client } from "./init-s3client";
+import { getS3Client } from "..";
 
 const ALLOWED_IMAGE_EXTENSIONS = [
   ".jpg",
@@ -23,7 +24,7 @@ export async function deleteImgFile(files: string[]): Promise<void> {
     return;
   }
 
-  const s3Client = initS3Client();
+  const s3Client = getS3Client();
 
   const bucketName = process.env.AWS_BUCKET_NAME as string;
 

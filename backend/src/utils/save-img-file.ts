@@ -1,4 +1,4 @@
-import { writeFile } from "fs/promises";
+import { getS3Client } from "..";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -15,7 +15,7 @@ export async function saveImgFile(
   file: ImgData
 ): Promise<{ img_url: string; file_name: string }> {
   try {
-    const s3Client = initS3Client();
+    const s3Client = getS3Client();
 
     const bucketName = process.env.AWS_BUCKET_NAME as string;
 
