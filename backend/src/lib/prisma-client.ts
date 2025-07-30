@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 export const prisma =
-  (process.env.IS_DEVELOPMENT as string) === "true"
+  (process.env.VITE_IS_DEVELOPMENT as string) === "true"
     ? new PrismaClient({
         datasources: { db: { url: process.env.DEVELOP_DATABASE_URL } },
       })

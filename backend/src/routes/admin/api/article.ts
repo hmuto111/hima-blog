@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 
-import { saveImgFile } from "../../../utils/save-img-file";
-import { deleteImgFile } from "../../../utils/delete-img-file";
-import type { PostArticleType, UpdateArticleType } from "../types/article";
-import { createArticle } from "../../../domain/article/createArticle";
-import { deleteArticle } from "../../../domain/article/deleteArticle";
-import { updateArticle } from "../../../domain/article/updateArticle";
+import { saveImgFile } from "../../../utils/save-img-file.js";
+import { deleteImgFile } from "../../../utils/delete-img-file.js";
+import type { PostArticleType, UpdateArticleType } from "../types/article.js";
+import { createArticle } from "../../../domain/article/createArticle.js";
+import { deleteArticle } from "../../../domain/article/deleteArticle.js";
+import { updateArticle } from "../../../domain/article/updateArticle.js";
 import { verify } from "hono/jwt";
 
 const adminArticleRouter = new Hono();

@@ -3,8 +3,18 @@ import { ArticleInfo, ArticleContent } from "../types/article";
 import { ResponseTag } from "@/types/tag";
 
 export const getArticleData = async (): Promise<ArticleInfo[]> => {
-  const response = await api.get(`/article`);
-  return response.data;
+  try {
+    const response = await api.get(`/article`);
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      console.error("Invalid response format:", response.data);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching article data:", error);
+    return [];
+  }
 };
 
 export const getArticleContent = async (
@@ -21,16 +31,40 @@ export const getArticleBySearch = async ({
   words?: string;
   tag?: string;
 }): Promise<ArticleInfo[]> => {
-  if (words) {
-    const response = await api.post(`/article/search`, { word: words });
-    return response.data;
-  } else {
-    const response = await api.post(`/article/search`, { tag: tag });
-    return response.data;
+  let articleInfo: ArticleInfo[] = [];
+  try {
+    if (words) {
+      const response = await api.post(`/article/search`, { word: words });
+      articleInfo = response.data;
+    } else {
+      const response = await api.post(`/article/search`, { tag: tag });
+      articleInfo = response.data;
+    }
+
+    if (Array.isArray(articleInfo)) {
+      return articleInfo;
+    } else {
+      console.error("Invalid response format:", articleInfo);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error fetching article by search:", error);
+    return [];
   }
 };
 
 export const getTags = async (): Promise<ResponseTag[]> => {
-  const response = await api.get(`/article/tag`);
-  return response.data;
+  try {
+    const response = await api.get(`/article/tag`);
+
+    if (!Array.isArray(response.data)) {
+      console.error("Invalid response format for tags:", response.data);
+      return [];
+    }
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching tags:", error);
+    return [];
+  }
 };

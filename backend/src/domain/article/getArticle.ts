@@ -1,6 +1,12 @@
-import { prisma } from "../../lib/prisma-client";
-import type { ArticleContentType, Tag } from "../../routes/web/types/article";
-import { formatArticle, formatArticleContent } from "../../utils/formatArticle";
+import { prisma } from "../../lib/prisma-client.js";
+import type {
+  ArticleContentType,
+  Tag,
+} from "../../routes/web/types/article.js";
+import {
+  formatArticle,
+  formatArticleContent,
+} from "../../utils/formatArticle.js";
 
 type GetArticleParams = {
   all?: boolean;
@@ -94,7 +100,7 @@ export const getArticle = async ({
     }
 
     if (tag && typeof tag === "string") {
-      const targetTag = tags.find((t) => t.name === tag);
+      const targetTag = tags.find((t: Tag) => t.name === tag);
       if (targetTag) {
         const article = await prisma.article.findMany({
           where: {

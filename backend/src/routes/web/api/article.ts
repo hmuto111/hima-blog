@@ -3,11 +3,11 @@ import {
   ArticleContent,
   ArticleList,
   TagList,
-} from "../../../schema/web/article";
+} from "../../../schema/web/article.js";
 import { z } from "zod";
-import type { ArticleContentType, ArticleListType } from "../types/article";
-import { getArticle, getTags } from "../../../domain/article/getArticle";
-import { updateArticleView } from "../../../domain/article/updateArticle";
+import type { ArticleContentType, ArticleListType } from "../types/article.js";
+import { getArticle, getTags } from "../../../domain/article/getArticle.js";
+import { updateArticleView } from "../../../domain/article/updateArticle.js";
 
 const articleRouter = new Hono();
 

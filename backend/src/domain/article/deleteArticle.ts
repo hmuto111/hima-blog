@@ -1,6 +1,6 @@
 import * as path from "path";
-import { prisma } from "../../lib/prisma-client";
-import { deleteImgFile } from "../../utils/delete-img-file";
+import { prisma } from "../../lib/prisma-client.js";
+import { deleteImgFile } from "../../utils/delete-img-file.js";
 
 export const deleteArticle = async (id: number): Promise<string> => {
   try {

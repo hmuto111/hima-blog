@@ -1,4 +1,4 @@
-import { prisma } from "../lib/prisma-client";
+import { prisma } from "../lib/prisma-client.js";
 import { sign } from "hono/jwt";
 
 export const login = async (

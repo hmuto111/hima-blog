@@ -49,7 +49,7 @@ const AdminLogin = () => {
 
       Cookies.set("admin_token", token, {
         expires: 1,
-        secure: import.meta.env.NODE_ENV === "production",
+        secure: import.meta.env.VITE_NODE_ENV === "production",
         sameSite: "strict",
       });
 
