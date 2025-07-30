@@ -7,12 +7,13 @@ import { prisma } from "./lib/prisma-client.js";
 import cron from "node-cron";
 import { execSync } from "child_process";
 import * as dotenv from "dotenv";
+import { initS3Client } from "./utils/init-s3client.js";
 
 dotenv.config();
 
-// 3日おき（72時間）にクリーンアップ実行
+// 7日おきにクリーンアップ実行
 if (process.env.VITE_IS_DEVELOPMENT === "false") {
-  cron.schedule("0 0 */3 * *", () => {
+  cron.schedule("0 0 */7 * *", () => {
     console.log("クリーンアップスクリプトを実行中...");
     try {
       execSync("pnpm cleanup-unused");
@@ -34,6 +35,8 @@ const app = new Hono()
     })
   );
 
+const s3Client = initS3Client();
+
 serve(
   {
     fetch: app.fetch,
@@ -49,6 +52,13 @@ serve(
     );
   }
 );
+
+export const getS3Client = () => {
+  if (!s3Client) {
+    throw new Error("S3クライアントが初期化されていません");
+  }
+  return s3Client;
+};
 
 const cleanup = async () => {
   console.log("サーバーのシャットダウンを開始します");

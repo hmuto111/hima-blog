@@ -100,9 +100,7 @@ export const getArticle = async ({
     }
 
     if (tag && typeof tag === "string") {
-      const targetTag = tags.find(
-        (t: { name: string; id: number; used: number }) => t.name === tag
-      );
+      const targetTag = tags.find((t: Tag) => t.name === tag);
       if (targetTag) {
         const article = await prisma.article.findMany({
           where: {

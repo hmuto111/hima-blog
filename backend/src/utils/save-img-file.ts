@@ -1,6 +1,7 @@
-import { writeFile } from "fs/promises";
+import { getS3Client } from "..";
 import * as path from "path";
 import { v4 as uuid } from "uuid";
+import { PutObjectCommand } from "@aws-sdk/client-s3";
 
 type ImgData = {
   name: string;
@@ -13,21 +14,35 @@ export async function saveImgFile(
   file: ImgData
 ): Promise<{ img_url: string; file_name: string }> {
   try {
-    const uploadDir = path.join("public", "images");
+    const s3Client = getS3Client();
 
-    const uniqueFileName = `${uuid()}${path.extname(file.name).toLowerCase()}`;
-    const filePath = path.join(uploadDir, uniqueFileName).replace(/\s+/g, "_");
-    await writeFile(filePath, file.data);
+    const bucketName = process.env.AWS_BUCKET_NAME as string;
 
-    console.log(`画像を保存しました： ${filePath}`);
+    if (process.env.VITE_IS_DEVELOPMENT === "true") {
+      console.log(`Bucket Name: ${bucketName}`);
+    }
 
-    const relativePath = filePath.replace(/^.*?public/, "");
-    const imgUrl =
-      (process.env.VITE_IS_DEVELOPMENT as string) === "true"
-        ? (process.env.DEVELOP_URL as string) + relativePath
-        : (process.env.PRODUCTION_URL as string) + relativePath;
+    if (!bucketName) {
+      throw new Error(
+        "AWS_BUCKET_NAME is not defined in environment variables"
+      );
+    }
 
-    const fileName = relativePath.replace(/^.*\/images\//, "");
+    const fileName = `${uuid()}${path.extname(file.name).toLowerCase()}`;
+
+    const folderPath = "images";
+    const s3Key = `${folderPath}/${fileName}`;
+
+    await s3Client.send(
+      new PutObjectCommand({
+        Bucket: bucketName,
+        Key: s3Key,
+        Body: file.data,
+        ContentType: file.mimetype,
+      })
+    );
+
+    const imgUrl = `${process.env.AWS_IMAGE_STORE_URL}/${fileName}`;
 
     return { img_url: imgUrl, file_name: fileName };
   } catch (error) {
