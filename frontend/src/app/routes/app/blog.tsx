@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { ArticleContent } from "@/features/blog/types/article";
 import { Article } from "@/features/blog/components/article/article";
 import { TableOfContents } from "@/features/blog/components/table-of-contents/table-of-contents";
@@ -12,54 +13,59 @@ const Blog = () => {
   const [articleContent, setArticleContent] = useState<ArticleContent>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const viewedArticleRef = useRef<Set<string>>(new Set());
-  const location = window.location;
-  const id = location.pathname.substring(
-    location.pathname.lastIndexOf("/") + 1
-  );
+  const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
-    try {
-      const VIEW_COUNTUP_DELAY_MS = 30000;
-      if (viewedArticleRef.current.has(location.pathname)) {
-        console.log("Already viewed this article");
-        return;
-      }
+    let countupTimer: number | null = null;
 
-      if (!id) {
-        console.error("Article ID is not defined");
-        return;
-      }
-
-      const countupViewTimer = setTimeout(async () => {
-        const result = await countupArticleView(parseInt(id));
-        console.log(result);
-        viewedArticleRef.current.add(location.pathname);
-      }, VIEW_COUNTUP_DELAY_MS);
-
-      return () => clearTimeout(countupViewTimer);
-    } catch (error) {
-      console.error("Error counting up article view:", error);
-    }
-  }, [location.pathname, id]);
-
-  useEffect(() => {
-    const fetchArticleContent = async () => {
+    const handleArticleLogic = async () => {
       try {
         setIsLoading(true);
-        if (!id) {
-          console.error("Article ID is not defined");
-          return;
+        setError(null);
+
+        if (!id || isNaN(parseInt(id))) {
+          throw new Error("無効な記事IDです");
         }
 
-        await getArticleContent(parseInt(id)).then(setArticleContent);
+        const numericId = parseInt(id);
+        const currentPath = `/blog/${id}`;
+
+        const content = await getArticleContent(numericId);
+
+        if (!content) {
+          throw new Error("記事が見つかりません");
+        }
+
+        setArticleContent(content);
+
+        if (!viewedArticleRef.current.has(currentPath)) {
+          countupTimer = setTimeout(async () => {
+            try {
+              await countupArticleView(numericId);
+
+              viewedArticleRef.current.add(currentPath);
+            } catch (error) {
+              console.error("ビューカウントエラー:", error);
+            }
+          }, 30000);
+        }
       } catch (error) {
-        console.error("Error fetching article data:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : "記事の取得に失敗しました";
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchArticleContent();
+    handleArticleLogic();
+
+    return () => {
+      if (countupTimer) {
+        clearTimeout(countupTimer);
+      }
+    };
   }, [id]);
 
   if (isLoading) {
@@ -76,7 +82,9 @@ const Blog = () => {
         />
         <div className={styles.article_container}>
           <div className={styles.article_index}></div>
-          <div>記事情報がないまたは取得に失敗しました</div>
+          <div>
+            記事情報がないまたは取得に失敗しました{error && <p>{error}</p>}
+          </div>
         </div>
       </>
     );
@@ -85,12 +93,8 @@ const Blog = () => {
   return (
     <>
       <PageSEO
-        title={
-          articleContent.title ? `${articleContent.title}` : "記事がありません"
-        }
-        description={
-          articleContent.content?.substring(0, 160) || "記事がありません"
-        }
+        title={articleContent.title}
+        description={articleContent.content?.substring(0, 160)}
         url={`https://hima-blog.vercel.app/blog/${id}`}
         type="article"
         publishedTime={articleContent.post}

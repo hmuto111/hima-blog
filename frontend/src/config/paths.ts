@@ -5,8 +5,8 @@ export const paths = {
       getHref: () => "/",
     },
     blog: {
-      path: "/blog/:blogId",
-      getHref: () => "/blog/${blogId}",
+      path: "/blog/:id",
+      getHref: () => "/blog/${id}",
     },
   },
   portfolio: {
