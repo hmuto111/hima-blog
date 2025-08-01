@@ -6,7 +6,7 @@ import Spinner from "@/components/spinner/spinner";
 import styles from "@/features/blog/styles/blog.module.css";
 import { getArticleContent } from "@/features/blog/api/get-article";
 import { countupArticleView } from "@/features/blog/api/countup-view";
-import { Helmet } from "react-helmet-async";
+import { PageSEO } from "@/components/SEO";
 
 const Blog = () => {
   const [articleContent, setArticleContent] = useState<ArticleContent>();
@@ -16,18 +16,6 @@ const Blog = () => {
   const id = location.pathname.substring(
     location.pathname.lastIndexOf("/") + 1
   );
-
-  useEffect(() => {
-    if (articleContent?.title) {
-      document.title = `${articleContent.title} - Hima Blog`;
-    } else {
-      document.title = "記事を読み込み中... - Hima Blog";
-    }
-
-    return () => {
-      document.title = "Hima Blog";
-    };
-  }, [articleContent?.title]);
 
   useEffect(() => {
     try {
@@ -76,66 +64,21 @@ const Blog = () => {
 
   return (
     <>
-      <Helmet>
-        <title>
-          {articleContent?.title
+      <PageSEO
+        title={
+          articleContent?.title
             ? `${articleContent.title} - Hima Blog`
-            : "記事を読み込み中... - Hima Blog"}
-        </title>
-        <meta
-          name="description"
-          content={
-            articleContent?.content?.substring(0, 160) || "記事を読み込み中..."
-          }
-        />
-        <meta
-          property="og:title"
-          content={
-            articleContent?.title
-              ? `${articleContent.title} - Hima Blog`
-              : "Hima Blog"
-          }
-        />
-        <meta
-          property="og:description"
-          content={
-            articleContent?.content?.substring(0, 160) ||
-            "技術記事を読み込み中..."
-          }
-        />
-        <meta property="og:type" content="article" />
-        <meta
-          property="og:url"
-          content={`https://hima-blog.vercel.app/blog/${id}`}
-        />
-        {articleContent?.img && (
-          <meta
-            property="og:image"
-            content={`https://hima-blog.vercel.app${articleContent.img}`}
-          />
-        )}
-        <meta
-          name="twitter:title"
-          content={
-            articleContent?.title
-              ? `${articleContent.title} - Hima Blog`
-              : "Hima Blog"
-          }
-        />
-        <meta
-          name="twitter:description"
-          content={
-            articleContent?.content?.substring(0, 160) ||
-            "技術記事を読み込み中..."
-          }
-        />
-        {articleContent?.img && (
-          <meta
-            name="twitter:image"
-            content={`https://hima-blog.vercel.app${articleContent.img}`}
-          />
-        )}
-      </Helmet>
+            : "記事を読み込み中... - Hima Blog"
+        }
+        description={
+          articleContent?.content?.substring(0, 160) || "記事を読み込み中..."
+        }
+        url={`https://hima-blog.vercel.app/blog/${id}`}
+        type="article"
+        publishedTime={articleContent?.post}
+        modifiedTime={articleContent?.updated}
+        tags={articleContent?.tag || []}
+      />
 
       {isLoading ? (
         <Spinner size="large" />

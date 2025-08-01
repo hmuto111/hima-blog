@@ -1,17 +1,17 @@
-import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import { GlobalSEO, PageSEO } from "@/components/SEO";
 
 const Portfolio = () => {
-  useEffect(() => {
-    document.title = "ポートフォリオ - Hima Blog";
-
-    return () => {
-      document.title = "Hima Blog";
-    };
-  }, []);
-
   return (
     <>
+      <GlobalSEO />
+      <PageSEO
+        title={"ポートフォリオ - Hima Blog"}
+        description="hmuto111のポートフォリオページです。これまでの制作物や技術スタックを紹介しています。"
+        tags={["@humto111", "ポートフォリオ", "制作物", "技術スタック"]}
+        url="https://hima-blog.vercel.app/portfolio"
+      />
+
       <Helmet>
         <title>ポートフォリオ - Hima Blog</title>
         <meta
@@ -30,7 +30,7 @@ const Portfolio = () => {
         <meta name="twitter:title" content="ポートフォリオ - Hima Blog" />
         <meta
           name="twitter:description"
-          content="hmuto111のポートフォリオページです。"
+          content="@hmuto111のポートフォリオページです。"
         />
       </Helmet>
 
