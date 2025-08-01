@@ -62,39 +62,48 @@ const Blog = () => {
     fetchArticleContent();
   }, [id]);
 
-  return (
-    <>
-      <PageSEO
-        title={
-          articleContent?.title
-            ? `${articleContent.title} - Hima Blog`
-            : "記事を読み込み中... - Hima Blog"
-        }
-        description={
-          articleContent?.content?.substring(0, 160) || "記事を読み込み中..."
-        }
-        url={`https://hima-blog.vercel.app/blog/${id}`}
-        type="article"
-        publishedTime={articleContent?.post}
-        modifiedTime={articleContent?.updated}
-        tags={articleContent?.tag || []}
-      />
+  if (isLoading) {
+    return <Spinner size="large" />;
+  }
 
-      {isLoading ? (
-        <Spinner size="large" />
-      ) : id && articleContent ? (
-        <div className={styles.article_container}>
-          <div className={styles.article_index}>
-            <TableOfContents contents={articleContent.content} />
-          </div>
-          <Article article={articleContent} />
-        </div>
-      ) : (
+  if (!articleContent) {
+    return (
+      <>
+        <PageSEO
+          title="記事が見つかりません"
+          description="お探しの記事は存在しないか、削除された可能性があります。"
+          url={`https://hima-blog.vercel.app/blog/${id}`}
+        />
         <div className={styles.article_container}>
           <div className={styles.article_index}></div>
           <div>記事情報がないまたは取得に失敗しました</div>
         </div>
-      )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <PageSEO
+        title={
+          articleContent.title ? `${articleContent.title}` : "記事がありません"
+        }
+        description={
+          articleContent.content?.substring(0, 160) || "記事がありません"
+        }
+        url={`https://hima-blog.vercel.app/blog/${id}`}
+        type="article"
+        publishedTime={articleContent.post}
+        modifiedTime={articleContent.updated}
+        tags={articleContent.tag || []}
+      />
+
+      <div className={styles.article_container}>
+        <div className={styles.article_index}>
+          <TableOfContents contents={articleContent.content} />
+        </div>
+        <Article article={articleContent} />
+      </div>
     </>
   );
 };

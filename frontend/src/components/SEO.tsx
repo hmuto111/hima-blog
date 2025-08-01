@@ -2,7 +2,6 @@ import { Helmet } from "react-helmet-async";
 
 export const GlobalSEO = () => {
   const googleVerification = import.meta.env.VITE_GOOGLE_SITE_VERIFICATION;
-
   return (
     <Helmet>
       {/* 基本メタタグ */}

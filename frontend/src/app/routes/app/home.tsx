@@ -43,7 +43,7 @@ const Home = () => {
     return (
       <>
         <PageSEO
-          title={"ホーム - Hima Blog"}
+          title={"ホーム"}
           description="@hmuto111が暇なときに技術的な知見や日々の学びを共有するブログサイトです."
           tags={[
             "@hmuto111",
