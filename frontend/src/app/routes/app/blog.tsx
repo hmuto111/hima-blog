@@ -76,7 +76,7 @@ const Blog = () => {
     return (
       <>
         <PageSEO
-          title="記事が見つかりません"
+          title="Hima Blog"
           description="お探しの記事は存在しないか、削除された可能性があります。"
           url={`https://hima-blog.vercel.app/blog/${id}`}
         />
