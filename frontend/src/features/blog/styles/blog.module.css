@@ -21,3 +21,13 @@
   min-width: 90px;
   align-self: flex-start;
 }
+
+@media (max-width: 768px) {
+  .article_container {
+    display: flex;
+    gap: 0;
+  }
+  .article_index {
+    display: none;
+  }
+}
