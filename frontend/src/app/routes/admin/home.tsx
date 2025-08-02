@@ -67,14 +67,12 @@ const AdminHome = () => {
               />
             ))}
           </div>
-          <div className={styles.new_post_wrap}>
-            <button
-              className={styles.post_button}
-              onClick={() => navigate(paths.admin.post.path)}
-            >
-              <TbPencilPlus size={"2rem"} color={"#777777"} />
-            </button>
-          </div>
+          <button
+            className={styles.post_button}
+            onClick={() => navigate(paths.admin.post.path)}
+          >
+            <TbPencilPlus size={"2rem"} color={"#777777"} />
+          </button>
         </div>
       </div>
     );
