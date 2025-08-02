@@ -17,8 +17,7 @@
 }
 
 .content_wrap {
-  display: grid;
-  grid-template-columns: 4.9fr 0.1fr;
+  display: flex;
   flex-direction: row;
   width: 100%;
   height: 100%;
@@ -36,27 +35,18 @@
   box-sizing: border-box;
 }
 
-.new_post_wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: end;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  box-sizing: border-box;
-  z-index: 999;
-}
-
 .post_button {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
   border: none;
   height: 60px;
   width: 60px;
   border-radius: 50%;
-  background-color: #cccccc;
+  background-color: #cacaca;
   cursor: pointer;
 }
 
