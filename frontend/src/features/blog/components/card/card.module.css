@@ -137,7 +137,7 @@
   font-size: 12px;
   color: #474747;
   width: fit-content;
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .article_info {
