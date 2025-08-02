@@ -69,13 +69,13 @@
   pointer-events: auto;
 }
 
-.humberger_menu_container {
+.humburger_menu_container {
   display: flex;
   flex-direction: row;
   position: relative;
 }
 
-.humberger_menu_icon {
+.humburger_menu_icon {
   width: 40px;
   height: 30px;
   position: fixed;
@@ -86,7 +86,7 @@
   display: inline-block;
 }
 
-.humberger_menu_icon span {
+.humburger_menu_icon span {
   display: block;
   height: 4px;
   margin: 6px 0;
@@ -95,13 +95,13 @@
   transition: 0.4s;
 }
 
-#humberger_menu_toggle:checked + .humberger_menu_icon span:nth-child(1) {
+#humburger_menu_toggle:checked + .humburger_menu_icon span:nth-child(1) {
   transform: translateY(10px) rotate(45deg);
 }
-#humberger_menu_toggle:checked + .humberger_menu_icon span:nth-child(2) {
+#humburger_menu_toggle:checked + .humburger_menu_icon span:nth-child(2) {
   opacity: 0;
 }
-#humberger_menu_toggle:checked + .humberger_menu_icon span:nth-child(3) {
+#humburger_menu_toggle:checked + .humburger_menu_icon span:nth-child(3) {
   transform: translateY(-10px) rotate(-45deg);
 }
 
@@ -115,12 +115,12 @@
   z-index: 1;
 }
 
-#humberger_menu_toggle:checked ~ .overlay {
+#humburger_menu_toggle:checked ~ .overlay {
   opacity: 0.3;
   pointer-events: auto;
 }
 
-.humberger_menu_container {
+.humburger_menu_container {
   display: flex;
   position: fixed;
   top: 0;
@@ -133,11 +133,11 @@
   z-index: 2;
 }
 
-#humberger_menu_toggle:checked ~ .humberger_menu_container {
+#humburger_menu_toggle:checked ~ .humburger_menu_container {
   right: 0;
 }
 
-.humberger_menu {
+.humburger_menu {
   display: flex;
   flex-direction: column;
   position: relative;
@@ -145,14 +145,14 @@
   left: 10px;
   gap: 10px;
 }
-.humberger_menu a {
+.humburger_menu a {
   font-size: 1.5rem;
   font-weight: bold;
   color: #333333;
   transition: color 0.3s;
 }
 
-.humberger_menu a:hover {
+.humburger_menu a:hover {
   color: #007bff;
 }
 
