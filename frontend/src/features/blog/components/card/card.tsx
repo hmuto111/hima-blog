@@ -63,7 +63,7 @@ export const Card = ({ isEdit, path, article }: Props) => {
         )}
       </div>
       <div className={styles.detail_wrap}>
-        <div className={styles.article_description}>
+        <div className={styles.article_detail}>
           <div className={styles.article_title}>{article.title}</div>
           <div className={styles.tags} ref={tagsContainerRef}>
             {article.tag.map((t, index) => (

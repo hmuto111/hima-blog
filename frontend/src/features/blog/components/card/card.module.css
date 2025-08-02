@@ -41,7 +41,7 @@
   box-sizing: border-box;
 }
 
-.article_description {
+.article_detail {
   display: flex;
   flex-direction: column;
   height: 60%;
@@ -102,11 +102,6 @@
   cursor: pointer;
 }
 
-.tooltip_container:focus {
-  outline: 2px solid #007bff;
-  outline-offset: 2px;
-}
-
 .tooltip {
   display: none;
   position: relative;
@@ -137,10 +132,10 @@
   padding: 4px 8px;
   margin: 1%;
   box-sizing: border-box;
-  background: #f5f5f5;
+  background: #c0c0c0;
   border-radius: 4px;
   font-size: 12px;
-  color: #616161;
+  color: #474747;
   width: fit-content;
 }
 
@@ -155,4 +150,41 @@
 
 .info {
   color: #616161;
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 175px;
+    height: 200px;
+    max-width: 175px;
+    max-height: 200px;
+  }
+
+  .article_img {
+    height: 75px;
+    min-height: 75px;
+  }
+
+  .detail_wrap {
+    height: 52%;
+  }
+
+  .article_title {
+    height: 70%;
+    font-size: 1rem;
+  }
+
+  .tags {
+    height: 25%;
+  }
+
+  .tag {
+    height: 15px;
+    font-size: 10px;
+    padding: 0 5px;
+  }
+
+  .article_info {
+    height: 30%;
+  }
 }
