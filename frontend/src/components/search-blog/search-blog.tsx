@@ -6,7 +6,13 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { paths } from "@/config/paths";
 
-export const SearchBlog = ({ role }: { role?: string }) => {
+export const SearchBlog = ({
+  role,
+  onSearch,
+}: {
+  role?: string;
+  onSearch?: () => void;
+}) => {
   const navigate = useNavigate();
   const [tags, setTags] = useState<Tag[]>([]);
 
@@ -55,6 +61,10 @@ export const SearchBlog = ({ role }: { role?: string }) => {
           },
         },
       });
+    } finally {
+      if (onSearch) {
+        onSearch();
+      }
     }
   };
 
