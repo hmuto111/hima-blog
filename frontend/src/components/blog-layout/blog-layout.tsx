@@ -21,8 +21,8 @@ export const BlogLayout = ({ role, children }: Props) => {
           <div className={styles.search_container}>
             <SearchBlog role={role} />
           </div>
-          <ScrollTop />
         </div>
+        <ScrollTop />
       </div>
     </div>
   );
