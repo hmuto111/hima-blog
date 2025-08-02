@@ -26,7 +26,10 @@ const Home = () => {
     const fetchArticleData = async () => {
       try {
         setIsLoading(true);
-        await getArticleData().then(setArticleData);
+        const response = await getArticleData();
+        setArticleData(
+          response.sort((a, b) => Date.parse(b.post) - Date.parse(a.post))
+        );
       } catch (error) {
         console.error("Error fetching article data:", error);
       } finally {
