@@ -48,18 +48,18 @@ export const Menu = ({ role }: { role?: string }) => {
         </div>
       </div>
 
-      <div className={styles.humburger_menu_wrapper}>
+      <div className={styles.hamburger_menu_wrapper}>
         <input
           type="checkbox"
-          id={styles.humburger_menu_toggle}
+          id={styles.hamburger_menu_toggle}
           hidden
           checked={isMenuOpen}
           onChange={toggleMenu}
         />
 
         <label
-          className={styles.humburger_menu_icon}
-          htmlFor={styles.humburger_menu_toggle}
+          className={styles.hamburger_menu_icon}
+          htmlFor={styles.hamburger_menu_toggle}
         >
           <span></span>
           <span></span>
@@ -68,8 +68,8 @@ export const Menu = ({ role }: { role?: string }) => {
 
         <div className={styles.overlay} onClick={closeMenu}></div>
 
-        <nav className={styles.humburger_menu_container}>
-          <div className={styles.humburger_menu}>
+        <nav className={styles.hamburger_menu_container}>
+          <div className={styles.hamburger_menu}>
             {role === "admin" && (
               <Link
                 to={paths.admin.home.path}
